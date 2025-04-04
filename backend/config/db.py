@@ -16,7 +16,6 @@ async def db_init(MONGO_DB_URI, DB_NAME):
         MONGO_DB_URI
     )
 
-
     db = client[DB_NAME]
     if db is None:
         raise Exception(f"unable to find {DB_NAME} database in the given environment")

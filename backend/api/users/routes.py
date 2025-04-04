@@ -25,9 +25,4 @@ async def update_user(user_id: str, body: UserSchema.UserUpdateRequest):
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(user_id: str):
-    for i in range(len(users)):
-        if users[i]["id"] == user_id:
-            users.pop(i)
-            return
-    
-    return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user not found")
+    return await UserService.delete_user(user_id)
