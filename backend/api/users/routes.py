@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 import schemas.user_schema as UserSchema
 from typing import List
+import services.user_service as UserService
 
 router = APIRouter(prefix="/users", tags=["User"])
 
@@ -25,14 +26,9 @@ def get_user(user_id: str):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user not found")
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserSchema.UserResponse)
-def create_user(user_body: UserSchema.UserCreateRequest):
-    new_user = user_body.model_dump(include=["username", "password", "email"])
-    for user in users:
-        if user["username"] == new_user["username"] or user["email"] == new_user["email"]:
-            return HTTPException(status_code=status.HTTP_409_CONFLICT, detail="user already exists")
-    new_user["id"] = str(len(users))
-    users.append(new_user)
-    return UserSchema.UserResponse(id=new_user["id"], email=new_user["email"], username=new_user["username"])
+async def create_user(body: UserSchema.UserCreateRequest):
+    user = await UserService.register_user(body)
+    return user.to_response()
 
 @router.put("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserSchema.UserResponse)
 def update_user(user_id: str, updated_user: UserSchema.UserUpdateRequest):
