@@ -20,15 +20,8 @@ async def create_user(body: UserSchema.UserCreateRequest):
     return await UserService.register_user(body)
 
 @router.put("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserSchema.UserResponse)
-async def update_user(user_id: str, updated_user: UserSchema.UserUpdateRequest):
-    for user in users:
-        if user["id"] == user_id:
-            for k, v in updated_user.model_dump().items():
-                if v is not None:
-                    user[k] = v
-            return user
-    
-    return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user not found")
+async def update_user(user_id: str, body: UserSchema.UserUpdateRequest):
+    return await UserService.update_user(user_id, body)
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(user_id: str):

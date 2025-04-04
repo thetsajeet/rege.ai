@@ -13,12 +13,10 @@ class UserModel(Document):
         name = "users"
 
     @classmethod
-    async def user_exists(cls, email: EmailStr, username: str) -> bool:
-        user = await cls.find(
+    async def user_exists(cls, email: EmailStr, username: str):
+        return await cls.find(
             Or(cls.username == username), (cls.email == email)
         ).first_or_none()
-
-        return user is not None
     
     def to_response(self):
         return UserSchema.UserResponse(id=str(self.id), username=self.username, email=self.email)
