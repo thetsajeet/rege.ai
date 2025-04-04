@@ -5,17 +5,11 @@ import services.user_service as UserService
 
 router = APIRouter(prefix="/users", tags=["User"])
 
-users: List[UserSchema.UserResponse] = [
-  { "id": "1", "username": "john_doe", "email": "john.doe@example.com", "password": "123" },
-  { "id": "2", "username": "jane_smith", "email": "jane.smith@example.com", "password": "123" },
-  { "id": "3", "username": "alice_wonder", "email": "alice@example.com", "password": "123" },
-  { "id": "4", "username": "bob_builder", "email": "bob.builder@example.com", "password": "123" },
-  { "id": "5", "username": "charlie_brown", "email": "charlie.brown@example.com", "password": "123" }
-]
+users = []
 
 @router.get("/", response_model=UserSchema.UserGetAllResponse, status_code=status.HTTP_200_OK)
-def get_all_users():
-    return {"users": [UserSchema.UserResponse(id=user["id"], username=user["username"], email=user["email"]) for user in users]}
+async def get_all_users():
+    return await UserService.get_users() 
 
 @router.get("/{user_id}", response_model=UserSchema.UserResponse, status_code=status.HTTP_200_OK)
 def get_user(user_id: str):

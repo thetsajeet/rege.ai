@@ -10,7 +10,6 @@ async def register_user(body: UserSchema.UserCreateRequest):
     user = UserModel(**user_dict)
     return await user.insert_one(user)
     
-    
 # login
 async def login_user():
     pass
@@ -21,7 +20,8 @@ async def logout_user():
 
 # get all users
 async def get_users():
-    pass
+    users = await UserModel.find().to_list()
+    return {"users": [u.to_response() for u in users]}
 
 # get a user
 async def get_user():
