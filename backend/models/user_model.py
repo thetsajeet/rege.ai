@@ -1,6 +1,7 @@
 from pydantic import EmailStr
 from beanie import Document
 import schemas.user_schema as UserSchema
+from beanie.operators import Or
 
 # MongoDB User Model
 class UserModel(Document):
@@ -13,16 +14,11 @@ class UserModel(Document):
 
     @classmethod
     async def user_exists(cls, email: EmailStr, username: str) -> bool:
-        user = await cls.find_one(
-            {
-                "$or":[
-                    {"email": email}, 
-                    {"username": username}
-                ]
-            }
-        ) 
-        print(user)
-        return user != None
+        user = await cls.find(
+            Or(cls.username == username), (cls.email == email)
+        ).first_or_none()
+
+        return user is not None
     
     def to_response(self):
         return UserSchema.UserResponse(id=str(self.id), username=self.username, email=self.email)

@@ -8,7 +8,8 @@ async def register_user(body: UserSchema.UserCreateRequest):
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "user already exists")
     user_dict = body.model_dump()
     user = UserModel(**user_dict)
-    return await user.insert_one(user)
+    result = await user.insert_one(user)
+    return result.to_response()
     
 # login
 async def login_user():
@@ -24,8 +25,11 @@ async def get_users():
     return {"users": [u.to_response() for u in users]}
 
 # get a user
-async def get_user():
-    pass
+async def get_user(user_id: str):
+    user = await UserModel.get(user_id)
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "user not found")
+    return user.to_response()
 
 # update a user
 async def update_user():

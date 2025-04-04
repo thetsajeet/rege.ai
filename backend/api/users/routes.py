@@ -12,20 +12,15 @@ async def get_all_users():
     return await UserService.get_users() 
 
 @router.get("/{user_id}", response_model=UserSchema.UserResponse, status_code=status.HTTP_200_OK)
-def get_user(user_id: str):
-    for user in users:
-        if user["id"] == user_id:
-            return UserSchema.UserResponse(id=user["id"], email=user["email"], username=user["username"])
-    
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user not found")
+async def get_user(user_id: str):
+    return await UserService.get_user(user_id)
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserSchema.UserResponse)
 async def create_user(body: UserSchema.UserCreateRequest):
-    user = await UserService.register_user(body)
-    return user.to_response()
+    return await UserService.register_user(body)
 
 @router.put("/{user_id}", status_code=status.HTTP_200_OK, response_model=UserSchema.UserResponse)
-def update_user(user_id: str, updated_user: UserSchema.UserUpdateRequest):
+async def update_user(user_id: str, updated_user: UserSchema.UserUpdateRequest):
     for user in users:
         if user["id"] == user_id:
             for k, v in updated_user.model_dump().items():
@@ -36,7 +31,7 @@ def update_user(user_id: str, updated_user: UserSchema.UserUpdateRequest):
     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="user not found")
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_user(user_id: str):
+async def delete_user(user_id: str):
     for i in range(len(users)):
         if users[i]["id"] == user_id:
             users.pop(i)
