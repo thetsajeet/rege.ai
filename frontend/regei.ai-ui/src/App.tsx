@@ -1,11 +1,9 @@
+import { Router } from "@solidjs/router";
 import "./App.css";
+import routes from "./routes";
 
 function App() {
-  return (
-    <>
-      <div class="text-3xl font-bold underline">welcome to rege.ai</div>
-    </>
-  );
+  return <Router>{routes}</Router>;
 }
 
 export default App;
