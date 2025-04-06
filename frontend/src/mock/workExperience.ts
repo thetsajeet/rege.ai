@@ -1,4 +1,4 @@
-const workExperiences = [
+const workExperiences: Experience[] = [
   {
     role: "Software Development Engineer 2",
     duration: "July 2023 - Present",
