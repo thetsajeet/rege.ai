@@ -10,7 +10,12 @@ export default function Home() {
   return (
     <div class="flex-1 py-2 flex flex-col gap-4">
       <div>rege.ai/thetsajeet</div>
-      <div>profile picture</div>
+      <div class="flex justify-center">
+        <img
+          src="https://avatar.iran.liara.run/public"
+          class="w-32 h-32 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+        />
+      </div>
       <div>
         <WrapperCard title="Summary">
           <SummaryCard summary={summary} />
