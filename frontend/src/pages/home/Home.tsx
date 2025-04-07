@@ -1,7 +1,9 @@
 import ProjectCard from "../../components/ProjectCard";
+import SummaryCard from "../../components/SummaryCard";
 import WorkCard from "../../components/WorkCard";
 import WrapperCard from "../../components/WrapperCard";
 import { projects } from "../../mock/projects";
+import { summary } from "../../mock/summary";
 import { workExperiences } from "../../mock/workExperience";
 
 export default function Home() {
@@ -9,8 +11,16 @@ export default function Home() {
     <div class="flex-1 py-2 flex flex-col gap-4">
       <div>rege.ai/thetsajeet</div>
       <div>profile picture</div>
-      <div>summary</div>
-      <div>links</div>
+      <div>
+        <WrapperCard title="Summary">
+          <SummaryCard summary={summary} />
+        </WrapperCard>
+      </div>
+      <div>
+        <WrapperCard title="Links">
+          <div></div>
+        </WrapperCard>
+      </div>
       <div>
         <WrapperCard title="Work Experience">
           {workExperiences.map((exp: Experience) => (
@@ -25,9 +35,21 @@ export default function Home() {
           ))}
         </WrapperCard>
       </div>
-      <div>education</div>
-      <div>achievements</div>
-      <div>certifications</div>
+      <div>
+        <WrapperCard title="Education">
+          <div></div>
+        </WrapperCard>
+      </div>
+      <div>
+        <WrapperCard title="Achievements">
+          <></>
+        </WrapperCard>
+      </div>
+      <div>
+        <WrapperCard title="Certifications">
+          <></>
+        </WrapperCard>
+      </div>
     </div>
   );
 }
