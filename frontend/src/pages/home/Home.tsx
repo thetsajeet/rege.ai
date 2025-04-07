@@ -9,12 +9,16 @@ import { workExperiences } from "../../mock/workExperience";
 export default function Home() {
   return (
     <div class="flex-1 py-2 flex flex-col gap-4">
-      <div>rege.ai/thetsajeet</div>
-      <div class="flex justify-center">
+      <div class="flex items-center justify-center">
         <img
-          src="https://avatar.iran.liara.run/public"
+          src="https://avatar.iran.liara.run/public/boy"
           class="w-32 h-32 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
         />
+        <div class="ml-20">
+          <h3 class="font-bold text-4xl py-1">T S Ajeet</h3>
+          <p class="font-medium text-sm">ID: 1234</p>
+          <p class="underline text-blue-500">rege.ai/thetsajeet</p>
+        </div>
       </div>
       <div>
         <WrapperCard title="Summary">
