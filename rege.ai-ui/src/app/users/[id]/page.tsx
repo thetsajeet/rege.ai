@@ -132,13 +132,54 @@ function SkillsSection() {
   );
 }
 
+function AchievementsSection() {
+  const achievements = [
+    {
+      title: 'won "Best Innovation Award"',
+      event: "Hackfest 2024",
+      month: "Mar 2024",
+    },
+    {
+      title: 'won "Top 10 Finalist"',
+      event: "DevCon India",
+      month: "Jan 2024",
+    },
+    { title: 'won "Design Champion"', event: "UI Jam", month: "Nov 2023" },
+  ];
+
+  return (
+    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
+      <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+        Achievements
+      </h2>
+      <hr className="border-zinc-400 dark:border-zinc-700" />
+
+      <div className="space-y-3 divide-y">
+        {achievements.map((item, idx) => (
+          <div
+            key={idx}
+            className="flex justify-between items-center text-sm text-zinc-700 dark:text-zinc-300 py-1"
+          >
+            <span>
+              {item.title} in <span className="italic">{item.event}</span>
+            </span>
+            <span className="text-md italic text-zinc-500 dark:text-zinc-400">
+              {item.month}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function UserPage() {
   const { id } = useParams();
 
   if (id === null || id === undefined) notFound();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pb-20">
       <div>navbar</div>
       {/* url */}
       <div className="flex self-center align-middle p-1">
@@ -208,18 +249,7 @@ export default function UserPage() {
       </div>
       {/* achievements */}
       <div className="mt-4">
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-          <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Achievements
-          </h2>
-          <hr className="border-zinc-400 dark:border-zinc-700" />
-
-          <div className="space-y-6">
-            <ExperienceItem />
-            <hr className="border-zinc-300 dark:border-zinc-800" />
-            <ExperienceItem />
-          </div>
-        </div>
+        <AchievementsSection />
       </div>
       {/* certifications */}
       <div className="mt-4">
