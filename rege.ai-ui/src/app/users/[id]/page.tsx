@@ -2,6 +2,8 @@
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Github, Globe, Linkedin, Mail, Phone, Twitter } from "lucide-react";
 import { notFound, useParams } from "next/navigation";
 
 function ExperienceItem() {
@@ -29,6 +31,76 @@ function ExperienceItem() {
   );
 }
 
+function LinksSection() {
+  return (
+    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
+      <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+        Links
+      </h2>
+      <hr className="border-zinc-400 dark:border-zinc-700" />
+
+      <div className="grid md:grid-cols-3 gap-x-2 gap-y-4">
+        <LinkRow
+          icon={<Linkedin className="w-4 h-4" />}
+          label="LinkedIn"
+          prefix="linkedin.com/in/"
+          placeholder="your-name"
+        />
+        <LinkRow
+          icon={<Github className="w-4 h-4" />}
+          label="GitHub"
+          prefix="github.com/"
+          placeholder="username"
+        />
+        <LinkRow
+          icon={<Globe className="w-4 h-4" />}
+          label="Portfolio"
+          prefix=""
+          placeholder="https://yourdomain.com"
+        />
+        <LinkRow
+          icon={<Twitter className="w-4 h-4" />}
+          label="Twitter"
+          prefix="twitter.com/"
+          placeholder="handle"
+        />
+        <LinkRow
+          icon={<Mail className="w-4 h-4" />}
+          label="Email"
+          prefix=""
+          placeholder="you@example.com"
+        />
+        <LinkRow
+          icon={<Phone className="w-4 h-4" />}
+          label="Mobile"
+          prefix=""
+          placeholder="+919876543210"
+        />
+      </div>
+    </div>
+  );
+}
+
+function LinkRow({ icon, label, prefix, placeholder }: any) {
+  return (
+    <div className="flex items-center">
+      <Badge className="bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 rounded-sm px-2 py-1 mr-2">
+        {icon}
+      </Badge>
+      {prefix && (
+        <span className="text-sm text-zinc-600 dark:text-zinc-400 whitespace-nowrap font-semibold mr-1">
+          {prefix}
+        </span>
+      )}
+      <Input
+        type="text"
+        placeholder={placeholder}
+        className="flex-1 text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950"
+      />
+    </div>
+  );
+}
+
 export default function UserPage() {
   const { id } = useParams();
 
@@ -51,21 +123,8 @@ export default function UserPage() {
         </Avatar>
       </div>
       {/* links */}
-      <div>
-        <div className="mt-4">
-          <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-            <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-              Links
-            </h2>
-            <hr className="border-zinc-400 dark:border-zinc-700" />
-
-            <div className="space-y-6">
-              <ExperienceItem />
-              <hr className="border-zinc-300 dark:border-zinc-800" />
-              <ExperienceItem />
-            </div>
-          </div>
-        </div>
+      <div className="mt-4">
+        <LinksSection />
       </div>
       {/* work experience */}
       <div className="mt-4">
