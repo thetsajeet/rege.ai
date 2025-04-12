@@ -4,5 +4,5 @@ Rege.ai stands for Resume Generator AI
 
 ## Tech Stack
 
-UI: SolidJs, TailwindCSS
+UI: Next, TailwindCSS
 Backend: FastAPI, MongoDB, Beanie
