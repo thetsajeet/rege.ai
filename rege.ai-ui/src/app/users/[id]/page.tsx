@@ -12,6 +12,7 @@ import {
   Phone,
   Twitter,
 } from "lucide-react";
+import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 
 function ExperienceItem() {
@@ -42,7 +43,7 @@ function ExperienceItem() {
 function LinksSection() {
   return (
     <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-      <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+      <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
         Links
       </h2>
       <hr className="border-zinc-400 dark:border-zinc-700" />
@@ -121,7 +122,7 @@ function SkillsSection() {
 
   return (
     <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-      <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+      <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
         Skills
       </h2>
       <hr className="border-zinc-400 dark:border-zinc-700" />
@@ -176,7 +177,7 @@ function CertificationsSection() {
 
   return (
     <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-      <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+      <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
         Certifications
       </h2>
       <hr className="border-zinc-400 dark:border-zinc-700" />
@@ -222,7 +223,7 @@ function AchievementsSection() {
 
   return (
     <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-      <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+      <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
         Achievements
       </h2>
       <hr className="border-zinc-400 dark:border-zinc-700" />
@@ -252,7 +253,9 @@ function Navbar() {
       <div className="flex items-center justify-between">
         {/* Left: Home button */}
         <div className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-          <Home className="size-5" />
+          <Link href={"/"}>
+            <Home className="size-5" />
+          </Link>
         </div>
 
         {/* Center: rege.ai/<username> */}
@@ -273,6 +276,48 @@ function Navbar() {
   );
 }
 
+function BioCard() {
+  return (
+    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 max-w-screen-xl mx-auto">
+      <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6">
+        {/* Avatar */}
+        <Avatar className="size-40">
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>JD</AvatarFallback>
+        </Avatar>
+
+        {/* Metadata */}
+        <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+          <div>
+            <span className="font-medium text-zinc-800 dark:text-zinc-100">
+              Full Name:
+            </span>{" "}
+            John Doe
+          </div>
+          <div>
+            <span className="font-medium text-zinc-800 dark:text-zinc-100">
+              Location:
+            </span>{" "}
+            San Francisco, CA
+          </div>
+          <div>
+            <span className="font-medium text-zinc-800 dark:text-zinc-100">
+              Date of Birth:
+            </span>{" "}
+            15 Aug 1995
+          </div>
+          <div>
+            <span className="font-medium text-zinc-800 dark:text-zinc-100">
+              Profession:
+            </span>{" "}
+            Full-Stack Developer
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function UserPage() {
   const { id } = useParams();
 
@@ -285,11 +330,8 @@ export default function UserPage() {
         <Navbar />
       </div>
       {/* profile picture */}
-      <div className="mt-4 flex justify-center">
-        <Avatar className="size-32">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+      <div className="mt-4">
+        <BioCard />
       </div>
       {/* links */}
       <div className="mt-4">
