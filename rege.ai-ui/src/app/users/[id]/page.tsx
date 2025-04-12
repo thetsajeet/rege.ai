@@ -132,6 +132,71 @@ function SkillsSection() {
   );
 }
 
+function CertificationsSection() {
+  const certifications = [
+    {
+      title: "Full-Stack Web Development",
+      issuer: "freeCodeCamp",
+      issued: "Feb 2024",
+      thumbnail: "https://github.com/shadcn.png", // Replace with cert preview
+    },
+    {
+      title: "AI for Everyone",
+      issuer: "DeepLearning.AI",
+      issued: "Nov 2023",
+      thumbnail: "https://github.com/shadcn.png",
+    },
+    {
+      title: "Full-Stack Web Development",
+      issuer: "freeCodeCamp",
+      issued: "Feb 2024",
+      thumbnail: "https://github.com/shadcn.png", // Replace with cert preview
+    },
+    {
+      title: "AI for Everyone",
+      issuer: "DeepLearning.AI",
+      issued: "Nov 2023",
+      thumbnail: "https://github.com/shadcn.png",
+    },
+    {
+      title: "AI for Everyone",
+      issuer: "DeepLearning.AI",
+      issued: "Nov 2023",
+      thumbnail: "https://github.com/shadcn.png",
+    },
+  ];
+
+  return (
+    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
+      <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+        Certifications
+      </h2>
+      <hr className="border-zinc-400 dark:border-zinc-700" />
+
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        {certifications.map((cert, idx) => (
+          <div key={idx} className="flex items-center gap-4 py-4 pl-2 border">
+            <img
+              src={cert.thumbnail}
+              alt={cert.title}
+              className="w-20 h-16 object-cover rounded-sm border border-zinc-300 dark:border-zinc-700"
+            />
+            <div className="flex-1 space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
+              <div className="font-medium">{cert.title}</div>
+              <div className="text-zinc-500 dark:text-zinc-400">
+                {cert.issuer}
+              </div>
+              <div className="text-xs text-zinc-500 dark:text-zinc-400">
+                Issued: {cert.issued}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function AchievementsSection() {
   const achievements = [
     {
@@ -253,18 +318,7 @@ export default function UserPage() {
       </div>
       {/* certifications */}
       <div className="mt-4">
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-          <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Certifications
-          </h2>
-          <hr className="border-zinc-400 dark:border-zinc-700" />
-
-          <div className="space-y-6">
-            <ExperienceItem />
-            <hr className="border-zinc-300 dark:border-zinc-800" />
-            <ExperienceItem />
-          </div>
-        </div>
+        <CertificationsSection />
       </div>
     </div>
   );
