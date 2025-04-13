@@ -4,6 +4,7 @@ import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import { ShineBorder } from "@/components/magicui/shine-border";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { LinkPreview } from "@/components/ui/link-preview";
 import { cn } from "@/lib/utils";
 import { ArrowRight, CircleAlert } from "lucide-react";
 import Link from "next/link";
@@ -132,13 +133,12 @@ export default function Home() {
       {/* Footer */}
       <footer className="w-full px-4 py-10 border-zinc-800 text-center text-zinc-500 text-sm">
         Built with ❤️ by{" "}
-        <Link
-          href="https:/github.com/thetsajeet"
-          target="_blank"
-          className="underline"
+        <LinkPreview
+          url="https:/github.com/thetsajeet"
+          className="font-bold underline"
         >
           thetsajeet
-        </Link>
+        </LinkPreview>
       </footer>
     </div>
   );
