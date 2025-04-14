@@ -5,7 +5,7 @@ import {
   DialogDescription,
   DialogHeader,
 } from "@/components/ui/dialog";
-import { Minus, Pencil, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 
 function CertificationItem({ cert, editMode }: any) {
   return (
