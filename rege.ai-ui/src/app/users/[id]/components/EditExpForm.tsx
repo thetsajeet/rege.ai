@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   DialogTitle,
@@ -59,7 +57,7 @@ const months = [
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 20 }, (_, i) => `${currentYear - i}`);
 
-function ExperienceForm() {
+export default function ExperienceForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -116,7 +114,7 @@ function ExperienceForm() {
             name="startDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>startdate</FormLabel>
+                <FormLabel>Start Date</FormLabel>
                 <FormControl>
                   <div className="flex gap-2">
                     <Select
@@ -165,7 +163,7 @@ function ExperienceForm() {
             control={form.control}
             name="isWorkingHere"
             render={({ field }) => (
-              <FormItem className="flex items-start space-x-1">
+              <FormItem className="flex items-end space-x-1">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
@@ -186,7 +184,7 @@ function ExperienceForm() {
             name="endDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>startdate</FormLabel>
+                <FormLabel>End Date</FormLabel>
                 <FormControl>
                   <div className="flex gap-2">
                     <Select
@@ -240,7 +238,9 @@ function ExperienceForm() {
               <FormLabel>Work Highlights</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="• Built an internal dashboard\n• Improved API performance\n• Mentored 2 junior devs"
+                  rows={2}
+                  className="resize-none"
+                  placeholder="Presented unique contributions"
                   {...field}
                   onChange={(e) => field.onChange(e.target.value.split("\n"))}
                   value={field.value.join("\n")}
@@ -249,115 +249,7 @@ function ExperienceForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
-  );
-}
-
-function ExperienceItem() {
-  return (
-    <>
-      <div className="space-y-1">
-        <div className="flex justify-start items-center gap-2 relative">
-          <EditDialog
-            trigger={
-              <Pencil className="size-4 text-yellow-400 cursor-pointer" />
-            }
-            content={
-              <DialogHeader>
-                <DialogTitle>Editing exp-1</DialogTitle>
-                <DialogDescription />
-                <div className="mt-2">
-                  <ExperienceForm />
-                </div>
-              </DialogHeader>
-            }
-            close={
-              <div className="flex justify-start gap-2">
-                <Button variant="outline" className="cursor-pointer">
-                  Cancel
-                </Button>
-                <Button variant="destructive" className="cursor-pointer">
-                  Yes
-                </Button>
-              </div>
-            }
-          />
-          <EditDialog
-            trigger={<Trash className="size-4 text-red-400 cursor-pointer" />}
-            content={
-              <DialogHeader>
-                <DialogTitle>Are you sure?</DialogTitle>
-                <DialogDescription>editting</DialogDescription>
-              </DialogHeader>
-            }
-            close={
-              <div className="flex justify-start gap-2">
-                <Button variant="outline" className="cursor-pointer">
-                  Cancel
-                </Button>
-                <Button variant="destructive" className="cursor-pointer">
-                  Yes
-                </Button>
-              </div>
-            }
-          />
-        </div>
-        <div className="flex justify-between items-start">
-          <div className="flex gap-1">
-            <span>sde</span>
-            <span>&middot;</span>
-            <span>citi</span>
-          </div>
-          <p className="flex italic gap-1 text-sm text-zinc-500 dark:text-zinc-400 relative">
-            <span>Jan 2023</span>
-            <span>-</span>
-            <span>Jan 2023</span>
-          </p>
-        </div>
-
-        <ul className="my-3 list-disc list-inside space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
-          <li>Built AI resume tools with React 19 & Tailwind v4</li>
-          <li>Implemented shadcn UI components for rapid prototyping</li>
-          <li>Integrated LLM-based JD parsing and resume matching</li>
-        </ul>
-      </div>
-
-      <hr className="border-zinc-300 dark:border-zinc-800" />
-    </>
-  );
-}
-
-export default function WorkExperience() {
-  return (
-    <div className="mt-4">
-      <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Work Experience
-          </h2>
-          <Button
-            variant="outline"
-            size="icon"
-            className="cursor-pointer rounded-full"
-          >
-            <Pencil />
-          </Button>
-        </div>
-
-        <hr className="border-zinc-400 dark:border-zinc-700" />
-
-        <div className="space-y-6">
-          {[1, 2].map((item: any, key: any) => (
-            <ExperienceItem key={key} />
-          ))}
-        </div>
-
-        <button className="w-full mt-4 text-sm text-white bg-purple-600 hover:bg-purple-700 py-2 rounded-md transition">
-          + Add New Experience
-        </button>
-      </div>
-    </div>
   );
 }

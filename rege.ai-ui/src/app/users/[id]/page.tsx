@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
-import WorkExperience from "./components/WorkExperience";
+import Exp from "./components/Exp";
 
 function ExperienceItem() {
   return (
@@ -341,7 +341,7 @@ export default function UserPage() {
         <LinksSection />
       </div>
       {/* work experience */}
-      <WorkExperience />
+      <Exp />
       {/* projects */}
       <div className="mt-4">
         <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
