@@ -2,7 +2,6 @@
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Github,
@@ -10,7 +9,6 @@ import {
   Home,
   Linkedin,
   Mail,
-  Pencil,
   Phone,
   Twitter,
 } from "lucide-react";
@@ -19,6 +17,7 @@ import { notFound, useParams } from "next/navigation";
 import Exp from "./components/Experiences/Experience";
 import Project from "./components/Projects/Project";
 import Certification from "./components/Certifications/Certification";
+import Achievement from "./components/Achievements/Achievement";
 
 function ExperienceItem() {
   return (
@@ -140,47 +139,6 @@ function SkillsSection() {
           >
             {skill}
           </Badge>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function AchievementsSection() {
-  const achievements = [
-    {
-      title: 'won "Best Innovation Award"',
-      event: "Hackfest 2024",
-      month: "Mar 2024",
-    },
-    {
-      title: 'won "Top 10 Finalist"',
-      event: "DevCon India",
-      month: "Jan 2024",
-    },
-    { title: 'won "Design Champion"', event: "UI Jam", month: "Nov 2023" },
-  ];
-
-  return (
-    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-      <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-        Achievements
-      </h2>
-      <hr className="border-zinc-400 dark:border-zinc-700" />
-
-      <div className="space-y-3 divide-y">
-        {achievements.map((item, idx) => (
-          <div
-            key={idx}
-            className="flex justify-between items-center text-sm text-zinc-700 dark:text-zinc-300 py-1"
-          >
-            <span>
-              {item.title} in <span className="italic">{item.event}</span>
-            </span>
-            <span className="text-md italic text-zinc-500 dark:text-zinc-400">
-              {item.month}
-            </span>
-          </div>
         ))}
       </div>
     </div>
@@ -335,7 +293,7 @@ export default function UserPage() {
       </div>
       {/* achievements */}
       <div className="mt-4">
-        <AchievementsSection />
+        <Achievement />
       </div>
       {/* certifications */}
       <div className="mt-4">
