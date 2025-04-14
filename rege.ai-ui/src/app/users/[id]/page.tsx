@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Github,
@@ -9,11 +10,13 @@ import {
   Home,
   Linkedin,
   Mail,
+  Pencil,
   Phone,
   Twitter,
 } from "lucide-react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
+import WorkExperience from "./components/WorkExperience";
 
 function ExperienceItem() {
   return (
@@ -338,20 +341,7 @@ export default function UserPage() {
         <LinksSection />
       </div>
       {/* work experience */}
-      <div className="mt-4">
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-          <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Work Experience
-          </h2>
-          <hr className="border-zinc-400 dark:border-zinc-700" />
-
-          <div className="space-y-6">
-            <ExperienceItem />
-            <hr className="border-zinc-300 dark:border-zinc-800" />
-            <ExperienceItem />
-          </div>
-        </div>
-      </div>
+      <WorkExperience />
       {/* projects */}
       <div className="mt-4">
         <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">

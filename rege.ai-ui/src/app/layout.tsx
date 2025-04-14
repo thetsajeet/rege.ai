@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "rege.ai",
+  title: "Rege.ai | Build the perfect resume with AI",
   description: "ai based resume tool builder",
 };
 

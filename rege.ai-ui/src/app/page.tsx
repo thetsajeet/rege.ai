@@ -1,13 +1,10 @@
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import HeroVideoDialog from "@/components/magicui/hero-video-dialog";
-import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import { ShineBorder } from "@/components/magicui/shine-border";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { LinkPreview } from "@/components/ui/link-preview";
 import { cn } from "@/lib/utils";
-import { ArrowRight, CircleAlert } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
