@@ -1,60 +1,77 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Check, Pencil } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Dialog, DialogOverlay, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogHeader, DialogClose } from "@/components/ui/dialog";
+import { Edit, Pencil, Trash, X } from "lucide-react";
+import EditExperience from "./EditExperienceItem";
+import { useState } from "react";
+import EditDialog from "@/components/shared/EditDialog";
 
 function ExperienceItem() {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="relative z-0 overflow-hidden">
-      <div className="space-y-1">
+    <>
+      <div className="space-y-1 overflow-hidden">
+        <div className="flex justify-start items-center gap-2 relative">
+          <EditDialog trigger={
+              <Pencil className="size-4 text-yellow-400 cursor-pointer" />
+          } content={
+            <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  editting
+                </DialogDescription>
+              </DialogHeader>
+          } />
+          <EditDialog trigger={
+              <Trash className="size-4 text-red-400 cursor-pointer" />
+          } content={
+            <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete your account
+                  and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+          } />
+
+        </div>
         <div className="flex justify-between items-start">
           <div className="flex gap-1">
-            <span className="underline underline-offset-3 cursor-pointer">
+            <span >
               sde
             </span>
             <span>&middot;</span>
-            <span className="underline underline-offset-3 cursor-pointer">
+            <span >
               citi
             </span>
           </div>
           <p className="flex italic gap-1 text-sm text-zinc-500 dark:text-zinc-400 relative">
-            <span className="underline underline-offset-3 cursor-pointer">
+            <span >
               Jan 2023
             </span>
             <span>-</span>
-            <span className="underline underline-offset-3 cursor-pointer">
+            <span >
               Jan 2023
             </span>
           </p>
         </div>
 
-        <ul className="mt-3 list-disc list-inside space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
+        <ul className="my-3 list-disc list-inside space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
           <li>Built AI resume tools with React 19 & Tailwind v4</li>
           <li>Implemented shadcn UI components for rapid prototyping</li>
           <li>Integrated LLM-based JD parsing and resume matching</li>
         </ul>
 
-        <button className="text-sm mt-2 text-purple-400 hover:underline">
-          + Add Point
-        </button>
       </div>
 
       <hr className="border-zinc-300 dark:border-zinc-800" />
-    </div>
+    </>
   );
 }
 
 export default function WorkExperience() {
-
   return (
     <div className="mt-4">
       <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
