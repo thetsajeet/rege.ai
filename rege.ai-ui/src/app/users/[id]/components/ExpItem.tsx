@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Pencil, Trash } from "lucide-react";
 import EditDialog from "@/components/shared/EditDialog";
-import ExperienceForm from "./EditExpForm";
+import ExperienceForm from "./ExpForm";
 
 export default function ExperienceItem({
   isEditting,

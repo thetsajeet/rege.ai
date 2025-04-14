@@ -1,11 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-  DialogTitle,
-  DialogDescription,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import { Pencil, Trash, WatchIcon, X } from "lucide-react";
-import EditDialog from "@/components/shared/EditDialog";
 import {
   Form,
   FormControl,

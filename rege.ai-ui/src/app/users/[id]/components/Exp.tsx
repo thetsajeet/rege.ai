@@ -4,6 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Check, Cross, Pencil, X } from "lucide-react";
 import ExperienceItem from "./ExpItem";
 import { useState } from "react";
+import CustomDialog from "@/components/shared/EditDialog";
+import {
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import ExperienceForm from "./ExpForm";
 
 export default function Exp() {
   const [editMode, toggleEditMode] = useState<boolean>(false);
@@ -54,9 +62,34 @@ export default function Exp() {
           ))}
         </div>
 
-        <button className="w-full mt-4 text-sm text-white bg-purple-600 hover:bg-purple-700 py-2 rounded-md transition">
-          + Add New Experience
-        </button>
+        {editMode && (
+          <CustomDialog
+            trigger={
+              <Button className="w-full mt-4 text-white bg-purple-600 hover:bg-purple-700 transition cursor-pointer">
+                + Add New Experience
+              </Button>
+            }
+            content={
+              <DialogHeader>
+                <DialogTitle>Add a new experience</DialogTitle>
+                <DialogDescription />
+                <div className="mt-2">
+                  <ExperienceForm />
+                </div>
+              </DialogHeader>
+            }
+            close={
+              <div className="flex justify-start gap-2">
+                <Button variant="outline" className="cursor-pointer">
+                  Cancel
+                </Button>
+                <Button className="cursor-pointer text-white bg-purple-600 hover:bg-purple-700">
+                  Save
+                </Button>
+              </div>
+            }
+          />
+        )}
       </div>
     </div>
   );
