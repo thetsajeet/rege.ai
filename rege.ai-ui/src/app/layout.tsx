@@ -12,11 +12,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`dark max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8 h-full flex flex-col antialiased`} 
-      >
-        {children}
+    <html lang="en" className="overflow-x-hidden">
+      <body className="dark">
+        <div
+          className={`container max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8 h-full flex flex-col antialiased`}
+        >
+          {children}
+        </div>
       </body>
     </html>
   );
