@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
-import Exp from "./components/Exp";
+import Exp from "./components/Experiences/Experience";
+import Project from "./components/Projects/Project";
 
 function ExperienceItem() {
   return (
@@ -343,20 +344,7 @@ export default function UserPage() {
       {/* work experience */}
       <Exp />
       {/* projects */}
-      <div className="mt-4">
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-          <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Projects
-          </h2>
-          <hr className="border-zinc-400 dark:border-zinc-700" />
-
-          <div className="space-y-6">
-            <ExperienceItem />
-            <hr className="border-zinc-300 dark:border-zinc-800" />
-            <ExperienceItem />
-          </div>
-        </div>
-      </div>
+      <Project />
       {/* skills */}
       <div className="mt-4">
         <SkillsSection />

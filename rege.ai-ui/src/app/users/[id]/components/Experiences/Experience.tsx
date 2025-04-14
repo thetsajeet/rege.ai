@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Check, Cross, Pencil, X } from "lucide-react";
-import ExperienceItem from "./ExpItem";
+import ExperienceItem from "./ExperienceItem";
 import { useState } from "react";
 import CustomDialog from "@/components/shared/EditDialog";
 import {
@@ -11,7 +11,7 @@ import {
   DialogClose,
   DialogDescription,
 } from "@/components/ui/dialog";
-import ExperienceForm from "./ExpForm";
+import ExperienceForm from "./ExperienceForm";
 
 export default function Exp() {
   const [editMode, toggleEditMode] = useState<boolean>(false);

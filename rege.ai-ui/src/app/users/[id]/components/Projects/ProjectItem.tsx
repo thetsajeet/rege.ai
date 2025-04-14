@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Pencil, Trash } from "lucide-react";
 import EditDialog from "@/components/shared/EditDialog";
-import ExperienceForm from "./ExpForm";
+import ProjectForm from "./ProjectForm";
 
 export default function ExperienceItem({
   isEditting,
@@ -29,7 +29,7 @@ export default function ExperienceItem({
                   <DialogTitle>Editing exp-1</DialogTitle>
                   <DialogDescription />
                   <div className="mt-2">
-                    <ExperienceForm />
+                    <ProjectForm />
                   </div>
                 </DialogHeader>
               }
