@@ -1,6 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  ReactNode,
+  useState,
+} from "react";
 import {
   Dialog,
   DialogTitle,
@@ -12,7 +18,15 @@ import {
   DialogClose,
 } from "../ui/dialog";
 
-export default function EditDialog({ trigger, content, close }: any) {
+export default function EditDialog({
+  trigger,
+  content,
+  close,
+}: {
+  trigger: ReactElement<any>;
+  content: ReactNode;
+  close: ReactNode;
+}) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
