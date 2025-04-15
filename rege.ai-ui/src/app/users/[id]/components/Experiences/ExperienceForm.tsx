@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Form,
   FormControl,
@@ -19,6 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { DialogClose } from "@/components/ui/dialog";
 
 const formSchema = z.object({
   role: z.string().min(1),
@@ -49,7 +53,13 @@ const months = [
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 20 }, (_, i) => `${currentYear - i}`);
 
-export default function ExperienceForm() {
+export default function ExperienceForm({
+  addExperience,
+  onDone,
+}: {
+  addExperience?: any;
+  onDone?: any;
+}) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,6 +79,8 @@ export default function ExperienceForm() {
 
   function onSubmit(values: FormValues) {
     console.log(values);
+    addExperience(values);
+    onDone();
   }
 
   return (
@@ -241,6 +253,15 @@ export default function ExperienceForm() {
             </FormItem>
           )}
         />
+
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" className="cursor-pointer">
+            Cancel
+          </Button>
+          <Button className="cursor-pointer text-white bg-purple-600 hover:bg-purple-700">
+            Save
+          </Button>
+        </div>
       </form>
     </Form>
   );

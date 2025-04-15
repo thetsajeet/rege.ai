@@ -3,18 +3,53 @@
 import { Button } from "@/components/ui/button";
 import { Check, Cross, Pencil, X } from "lucide-react";
 import ExperienceItem from "./ExperienceItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomDialog from "@/components/shared/EditDialog";
 import {
   DialogHeader,
   DialogTitle,
   DialogClose,
   DialogDescription,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import ExperienceForm from "./ExperienceForm";
+import { useResumeStore } from "@/lib/store";
+import { produce } from "immer";
 
 export default function Exp({ viewOnly }: { viewOnly: boolean }) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
+  const { resume, updateField } = useResumeStore();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { experiences } = resume;
+  const [initialExperiencesState, setInitialExperiencesState] = useState(() =>
+    produce(experiences, (draft) => {}),
+  );
+
+  const [expDraft, setExpDraft] = useState(() =>
+    produce(initialExperiencesState, (draft) => {}),
+  );
+
+  const addExperience = (data: any) => {
+    setExpDraft(
+      produce((draft: any) => {
+        draft.push(data);
+      }),
+    );
+  };
+
+  const saveExpState = () => {
+    updateField("experiences", expDraft);
+    setInitialExperiencesState(expDraft);
+    toggleEditMode(false);
+  };
+
+  const cancelExpState = () => {
+    setExpDraft(produce(initialExperiencesState, (draft) => {}));
+    toggleEditMode(false);
+  };
 
   return (
     <div className="mt-4">
@@ -39,7 +74,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={() => toggleEditMode(false)}
+                  onClick={saveExpState}
                 >
                   <Check className="text-green-500" />
                 </Button>
@@ -47,7 +82,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={() => toggleEditMode(false)}
+                  onClick={cancelExpState}
                 >
                   <X className="text-red-600" />
                 </Button>
@@ -58,38 +93,32 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
         <hr className="border-zinc-400 dark:border-zinc-700" />
 
         <div className="space-y-6">
-          {[1, 2].map((item: any, key: any) => (
+          {expDraft.map((item: any, key: any) => (
             <ExperienceItem key={key} isEditting={editMode} />
           ))}
         </div>
 
         {editMode && (
-          <CustomDialog
-            trigger={
+          <Dialog open={modalOpen} onOpenChange={setModalOpen} modal={false}>
+            <DialogTrigger asChild>
               <Button className="w-full mt-4 text-white bg-purple-600 hover:bg-purple-700 transition cursor-pointer">
                 + Add New Experience
               </Button>
-            }
-            content={
+            </DialogTrigger>
+            {modalOpen && (
+              <div className="fixed inset-0 bg-zinc-900/60 backdrop-blur-sm z-40 pointer-events-none" />
+            )}
+            <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add a new experience</DialogTitle>
+                <DialogTitle>Add Experience</DialogTitle>
                 <DialogDescription />
-                <div className="mt-2">
-                  <ExperienceForm />
-                </div>
               </DialogHeader>
-            }
-            close={
-              <div className="flex justify-start gap-2">
-                <Button variant="outline" className="cursor-pointer">
-                  Cancel
-                </Button>
-                <Button className="cursor-pointer text-white bg-purple-600 hover:bg-purple-700">
-                  Save
-                </Button>
-              </div>
-            }
-          />
+              <ExperienceForm
+                onDone={() => setModalOpen(false)}
+                addExperience={addExperience}
+              />
+            </DialogContent>
+          </Dialog>
         )}
       </div>
     </div>

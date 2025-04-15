@@ -25,7 +25,7 @@ export default function EditDialog({
 }: {
   trigger: ReactElement<any>;
   content: ReactNode;
-  close: ReactNode;
+  close?: ReactNode;
 }) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -38,9 +38,11 @@ export default function EditDialog({
       <DialogContent>
         <>
           {content}
-          <DialogFooter>
-            <DialogClose asChild>{close}</DialogClose>
-          </DialogFooter>
+          {close && (
+            <DialogFooter>
+              <DialogClose asChild>{close}</DialogClose>
+            </DialogFooter>
+          )}
         </>
       </DialogContent>
     </Dialog>
