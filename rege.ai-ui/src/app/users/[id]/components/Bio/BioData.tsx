@@ -49,12 +49,12 @@ export default function BioCard() {
       <hr className="border-zinc-400 dark:border-zinc-700" />
       <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-6 py-4 max-w-screen-md mx-auto">
         {/* Left Column (Avatar aligned right on larger screens) */}
-        <div className="flex justify-center sm:justify-end">
+        <div className="flex justify-center sm:justify-end relative">
           <div
             className={cn(
               "rounded-full p-1 transition-all",
               editMode &&
-                "relative group cursor-pointer hover:brightness-50 hover:ring-2 hover:ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
+                "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
             )}
           >
             <Avatar className="size-40">
