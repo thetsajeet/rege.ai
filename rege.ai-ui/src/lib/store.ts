@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
 export type Link = {
   label: string;
@@ -70,35 +71,31 @@ type ResumeStore = {
   updateField: <T extends keyof Resume>(section: T, value: Resume[T]) => void;
 };
 
-export const useResumeStore = create<ResumeStore>((set) => ({
-  resume: {
-    bio: {
-      userId: "",
-      fullName: "aj",
-      profession: "",
-      dob: "",
-      location: "",
+export const useResumeStore = create<ResumeStore>()(
+  immer((set) => ({
+    resume: {
+      bio: {
+        userId: "1",
+        fullName: "Ajeet T S",
+        profession: "SDE 2",
+        dob: "07/12/2000",
+        location: "Pune",
+      },
+      links: [],
+      experiences: [],
+      projects: [],
+      education: [],
+      skills: [],
+      achievements: [],
+      certifications: [],
     },
-    links: [],
-    experiences: [],
-    projects: [],
-    education: [],
-    skills: [],
-    achievements: [],
-    certifications: [],
-  },
-  setResume: (data) =>
-    set((state) => ({
-      resume: {
-        ...state.resume,
-        ...data,
-      },
-    })),
-  updateField: (section, value) =>
-    set((state) => ({
-      resume: {
-        ...state.resume,
-        [section]: value,
-      },
-    })),
-}));
+    setResume: (data: Partial<Resume>) =>
+      set((state) => {
+        state.resume = { ...state.resume, ...data };
+      }),
+    updateField: (section, value) =>
+      set((state) => {
+        state.resume[section] = value;
+      }),
+  })),
+);

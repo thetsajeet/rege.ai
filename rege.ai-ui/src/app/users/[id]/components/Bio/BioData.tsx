@@ -13,7 +13,8 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
   const { resume, updateField } = useResumeStore();
   const { bio } = resume;
-  const [bioDraft, setBioDraft] = useState<Bio>(bio);
+  const [initialBioState, _] = useState<Bio>(bio);
+  const [bioDraft, setBioDraft] = useState<Bio>(initialBioState);
 
   function saveBioState() {
     showCustomToast("success", "Bio updated!");
@@ -22,6 +23,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
   }
 
   function cancelBioState() {
+    setBioDraft(initialBioState);
     showCustomToast("info", "Bio changes are cancelled");
     toggleEditMode(false);
   }
@@ -71,7 +73,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
             className={cn(
               "rounded-full p-1 transition-all",
               editMode &&
-              "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
+                "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
             )}
           >
             <Avatar className="size-40">
@@ -127,7 +129,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                 }
               />
             ) : (
-              <span className="truncate">{bio.location}</span>
+              <span className="truncate">{bio.profession}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
@@ -171,7 +173,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                   }
                 />
               ) : (
-                <span className="truncate">{"April 14, 2006"}</span>
+                <span className="truncate">{bio.dob}</span>
               )
             }
           </div>
