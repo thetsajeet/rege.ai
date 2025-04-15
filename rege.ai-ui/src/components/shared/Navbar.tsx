@@ -1,5 +1,6 @@
-import { Home, Link } from "lucide-react";
+import Link from "next/link";
 import { Badge } from "../ui/badge";
+import { Home } from "lucide-react";
 
 export default function Navbar() {
   return (

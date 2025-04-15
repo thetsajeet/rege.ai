@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-export default function ListSkill() {
+export default function ListSkill({ viewOnly }: { viewOnly: boolean }) {
   const skills = [
     "React",
     "Angular",
