@@ -8,6 +8,7 @@ export type Link = {
 };
 
 export type ExperienceItem = {
+  id: string;
   role: string;
   company: string;
   startDate: string;
@@ -69,6 +70,7 @@ type ResumeStore = {
   resume: Resume;
   setResume: (data: Partial<Resume>) => void;
   updateField: <T extends keyof Resume>(section: T, value: Resume[T]) => void;
+  updateExperience: (data: ExperienceItem, id: string) => void;
 };
 
 export const useResumeStore = create<ResumeStore>()(
@@ -97,5 +99,13 @@ export const useResumeStore = create<ResumeStore>()(
       set((state) => {
         state.resume[section] = value;
       }),
+    updateExperience: (data: ExperienceItem, id: string) => {
+      set((state) => {
+        state.resume.experiences = state.resume.experiences.map((exp) => {
+          if (exp.id === data.id) return data;
+          return exp;
+        });
+      });
+    },
   })),
 );

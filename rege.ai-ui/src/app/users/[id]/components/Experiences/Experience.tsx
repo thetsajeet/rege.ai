@@ -94,7 +94,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
 
         <div className="space-y-6">
           {expDraft.map((item: any, key: any) => (
-            <ExperienceItem key={key} isEditting={editMode} />
+            <ExperienceItem experience={item} key={key} isEditting={editMode} />
           ))}
         </div>
 
