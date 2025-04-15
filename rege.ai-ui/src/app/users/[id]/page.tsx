@@ -4,13 +4,16 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
+  Check,
   Github,
   Globe,
   Home,
   Linkedin,
   Mail,
+  Pencil,
   Phone,
   Twitter,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
@@ -18,7 +21,8 @@ import Exp from "./components/Experiences/Experience";
 import Project from "./components/Projects/Project";
 import Certification from "./components/Certifications/Certification";
 import Achievement from "./components/Achievements/Achievement";
-import BioLink from "./components/BioLinks.tsx/BioLink";
+import BioLink from "./components/Bio/BioLink";
+import BioData from "./components/Bio/BioData";
 
 function ExperienceItem() {
   return (
@@ -105,95 +109,19 @@ function Navbar() {
   );
 }
 
-function BioCard() {
-  return (
-    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 max-w-screen-xl mx-auto">
-      <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6">
-        {/* Avatar */}
-        <Avatar className="size-40">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>JD</AvatarFallback>
-        </Avatar>
-
-        {/* Metadata */}
-        <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
-          <div>
-            <span className="font-medium text-zinc-800 dark:text-zinc-100">
-              Full Name:
-            </span>{" "}
-            John Doe
-          </div>
-          <div>
-            <span className="font-medium text-zinc-800 dark:text-zinc-100">
-              Location:
-            </span>{" "}
-            San Francisco, CA
-          </div>
-          <div>
-            <span className="font-medium text-zinc-800 dark:text-zinc-100">
-              Date of Birth:
-            </span>{" "}
-            15 Aug 1995
-          </div>
-          <div>
-            <span className="font-medium text-zinc-800 dark:text-zinc-100">
-              Profession:
-            </span>{" "}
-            Full-Stack Developer
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function UserPage() {
   const { id } = useParams();
 
   if (id === null || id === undefined) notFound();
 
-  const certifications = [
-    {
-      title: "Full-Stack Web Development",
-      issuer: "freeCodeCamp",
-      issued: "Feb 2024",
-      thumbnail: "https://github.com/shadcn.png", // Replace with cert preview
-    },
-    {
-      title: "AI for Everyone",
-      issuer: "DeepLearning.AI",
-      issued: "Nov 2023",
-      thumbnail: "https://github.com/shadcn.png",
-    },
-    {
-      title: "Full-Stack Web Development",
-      issuer: "freeCodeCamp",
-      issued: "Feb 2024",
-      thumbnail: "https://github.com/shadcn.png", // Replace with cert preview
-    },
-    {
-      title: "AI for Everyone",
-      issuer: "DeepLearning.AI",
-      issued: "Nov 2023",
-      thumbnail: "https://github.com/shadcn.png",
-    },
-    {
-      title: "AI for Everyone",
-      issuer: "DeepLearning.AI",
-      issued: "Nov 2023",
-      thumbnail: "https://github.com/shadcn.png",
-    },
-  ];
-
   return (
     <div className="flex flex-col pb-20">
-      {/* url */}
       <div>
         <Navbar />
       </div>
-      {/* profile picture */}
+      {/* biodata */}
       <div className="mt-4">
-        <BioCard />
+        <BioData />
       </div>
       {/* links */}
       <div className="mt-4">
