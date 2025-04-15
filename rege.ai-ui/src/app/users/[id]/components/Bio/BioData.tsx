@@ -54,18 +54,18 @@ export default function BioCard() {
             className={cn(
               "rounded-full p-1 transition-all",
               editMode &&
-              "relative group cursor-pointer hover:brightness-50 hover:ring-2 hover:ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
+                "relative group cursor-pointer hover:brightness-50 hover:ring-2 hover:ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
             )}
           >
             <Avatar className="size-40">
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
-            {editMode && (
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+              {editMode && (
                 <Pencil className="w-6 h-6 text-black brightness-105" />
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
