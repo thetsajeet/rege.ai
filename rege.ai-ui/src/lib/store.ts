@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-type Link = {
+export type Link = {
   label: string;
   prefix?: string;
   value: string;
 };
 
-type ExperienceItem = {
+export type ExperienceItem = {
   role: string;
   company: string;
   startDate: string;
@@ -15,7 +15,7 @@ type ExperienceItem = {
   points: string[];
 };
 
-type ProjectItem = {
+export type ProjectItem = {
   role: string;
   startDate: string;
   endDate?: string;
@@ -23,7 +23,7 @@ type ProjectItem = {
   points: string[];
 };
 
-type EducationItem = {
+export type EducationItem = {
   role: string;
   company: string;
   startDate: string;
@@ -32,27 +32,29 @@ type EducationItem = {
   points: string[];
 };
 
-type Achievement = {
+export type Achievement = {
   value: string;
   month: string;
   year: string;
 };
 
-type Certification = {
+export type Certification = {
   image?: string;
   title: string;
   issuedBy: string;
   issueDate: string;
 };
 
+export type Bio = {
+  userId: string;
+  fullName: string;
+  profession: string;
+  dob: string;
+  location: string;
+};
+
 type Resume = {
-  bio: {
-    userId: string;
-    fullName: string;
-    profession: string;
-    dob: string;
-    location: string;
-  };
+  bio: Bio;
   links: Link[];
   experiences: ExperienceItem[];
   projects: ProjectItem[];
@@ -72,7 +74,7 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   resume: {
     bio: {
       userId: "",
-      fullName: "",
+      fullName: "aj",
       profession: "",
       dob: "",
       location: "",

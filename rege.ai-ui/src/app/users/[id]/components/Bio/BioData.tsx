@@ -6,9 +6,25 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Bio, useResumeStore } from "@/lib/store";
+import { showCustomToast } from "@/lib/toast";
 
 export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
+  const { resume, updateField } = useResumeStore();
+  const { bio } = resume;
+  const [bioDraft, setBioDraft] = useState<Bio>(bio);
+
+  function saveBioState() {
+    showCustomToast("success", "Bio updated!");
+    updateField("bio", bioDraft);
+    toggleEditMode(false);
+  }
+
+  function cancelBioState() {
+    showCustomToast("info", "Bio changes are cancelled");
+    toggleEditMode(false);
+  }
 
   return (
     <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 max-w-screen-xl mx-auto">
@@ -32,7 +48,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                 variant="outline"
                 size="icon"
                 className="cursor-pointer rounded-full"
-                onClick={() => toggleEditMode(false)}
+                onClick={saveBioState}
               >
                 <Check className="text-green-500" />
               </Button>
@@ -40,7 +56,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                 variant="outline"
                 size="icon"
                 className="cursor-pointer rounded-full"
-                onClick={() => toggleEditMode(false)}
+                onClick={cancelBioState}
               >
                 <X className="text-red-600" />
               </Button>
@@ -55,7 +71,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
             className={cn(
               "rounded-full p-1 transition-all",
               editMode &&
-                "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
+              "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
             )}
           >
             <Avatar className="size-40">
@@ -80,11 +96,17 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
               <Input
                 type="text"
                 placeholder={"Enter your name"}
-                defaultValue={`Mortimer "Morty" Smith`}
+                defaultValue={bio.fullName}
                 className="transition-all text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                onChange={(e: any) =>
+                  setBioDraft((prev: Bio) => ({
+                    ...prev,
+                    fullName: e.target.value,
+                  }))
+                }
               />
             ) : (
-              <span className="truncate">{`Mortimer "Morty" Smith`}</span>
+              <span className="truncate">{bio.fullName}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
@@ -95,11 +117,17 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
               <Input
                 type="text"
                 placeholder={"Enter your profession"}
-                defaultValue={"Interdimensional Traveler"}
+                defaultValue={bio.profession}
                 className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                onChange={(e: any) =>
+                  setBioDraft((prev: Bio) => ({
+                    ...prev,
+                    profession: e.target.value,
+                  }))
+                }
               />
             ) : (
-              <span className="truncate">{"Interdimensional Traveler"}</span>
+              <span className="truncate">{bio.location}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
@@ -110,13 +138,17 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
               <Input
                 type="text"
                 placeholder={"Enter your location"}
-                defaultValue={"Dimension C-137 (Currently Unknown)"}
+                defaultValue={bio.location}
                 className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                onChange={(e: any) =>
+                  setBioDraft((prev: Bio) => ({
+                    ...prev,
+                    location: e.target.value,
+                  }))
+                }
               />
             ) : (
-              <span className="truncate">
-                {"Dimension C-137 (Currently Unknown)"}
-              </span>
+              <span className="truncate">{bio.location}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
@@ -131,6 +163,12 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                   placeholder={"Enter your date of birth"}
                   defaultValue={"April 14, 2006"}
                   className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                  onChange={(e: any) =>
+                    setBioDraft((prev: Bio) => ({
+                      ...prev,
+                      dob: e.target.value,
+                    }))
+                  }
                 />
               ) : (
                 <span className="truncate">{"April 14, 2006"}</span>
