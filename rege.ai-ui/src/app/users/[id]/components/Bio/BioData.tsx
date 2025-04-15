@@ -70,25 +70,25 @@ export default function BioCard() {
         </div>
 
         {/* Right Column (Metadata aligned left on larger screens) */}
-        <div className="flex flex-col justify-center items-start space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+        <div className="flex flex-col justify-center items-start space-y-2 text-md text-zinc-700 dark:text-zinc-300">
           <div className="flex items-center gap-2 w-full">
             <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
-              label:
+              Full name:
             </span>
             {editMode ? (
               <Input
                 type="text"
                 placeholder={""}
                 defaultValue={"ajeet"}
-                className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                className="transition-all text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
               />
             ) : (
-              <span className="truncate">{"aj"}</span>
+              <span className="truncate">{"Ajeet T S"}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
             <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
-              label:
+              Profession:
             </span>
             {editMode ? (
               <Input
@@ -98,12 +98,12 @@ export default function BioCard() {
                 className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
               />
             ) : (
-              <span className="truncate">{"aj"}</span>
+              <span className="truncate">{"Software Engineer"}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
             <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
-              label:
+              Location:
             </span>
             {editMode ? (
               <Input
@@ -113,12 +113,12 @@ export default function BioCard() {
                 className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
               />
             ) : (
-              <span className="truncate">{"aj"}</span>
+              <span className="truncate">{"Pune, Maharashtra"}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
             <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
-              label:
+              Date of birth:
             </span>
             {editMode ? (
               <Input
@@ -128,7 +128,7 @@ export default function BioCard() {
                 className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
               />
             ) : (
-              <span className="truncate">{"aj"}</span>
+              <span className="truncate">{"07/12/2000"}</span>
             )}
           </div>
         </div>
