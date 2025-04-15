@@ -78,12 +78,12 @@ export default function BioCard() {
             {editMode ? (
               <Input
                 type="text"
-                placeholder={""}
-                defaultValue={"ajeet"}
+                placeholder={"Enter your name"}
+                defaultValue={`Mortimer "Morty" Smith`}
                 className="transition-all text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
               />
             ) : (
-              <span className="truncate">{"Ajeet T S"}</span>
+              <span className="truncate">{`Mortimer "Morty" Smith`}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
@@ -93,12 +93,12 @@ export default function BioCard() {
             {editMode ? (
               <Input
                 type="text"
-                placeholder={""}
-                defaultValue={"ajeet"}
+                placeholder={"Enter your profession"}
+                defaultValue={"Interdimensional Traveler"}
                 className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
               />
             ) : (
-              <span className="truncate">{"Software Engineer"}</span>
+              <span className="truncate">{"Interdimensional Traveler"}</span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
@@ -108,28 +108,33 @@ export default function BioCard() {
             {editMode ? (
               <Input
                 type="text"
-                placeholder={""}
-                defaultValue={"ajeet"}
+                placeholder={"Enter your location"}
+                defaultValue={"Dimension C-137 (Currently Unknown)"}
                 className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
               />
             ) : (
-              <span className="truncate">{"Pune, Maharashtra"}</span>
+              <span className="truncate">
+                {"Dimension C-137 (Currently Unknown)"}
+              </span>
             )}
           </div>
           <div className="flex items-center gap-2 w-full">
             <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
               Date of birth:
             </span>
-            {editMode ? (
-              <Input
-                type="text"
-                placeholder={""}
-                defaultValue={"ajeet"}
-                className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
-              />
-            ) : (
-              <span className="truncate">{"07/12/2000"}</span>
-            )}
+            {
+              // TODO: make it a date element
+              editMode ? (
+                <Input
+                  type="text"
+                  placeholder={"Enter your date of birth"}
+                  defaultValue={"April 14, 2006"}
+                  className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                />
+              ) : (
+                <span className="truncate">{"April 14, 2006"}</span>
+              )
+            }
           </div>
         </div>
       </div>{" "}

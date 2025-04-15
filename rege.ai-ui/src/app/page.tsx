@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { LinkPreview } from "@/components/ui/link-preview";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -59,8 +60,8 @@ export default function Home() {
             </div>
           </div>
           <div className="flex-1 hidden lg:flex justify-center">
-            <div className="w-[360px] h-[280px] bg-zinc-800 rounded-xl border border-zinc-700 flex items-center justify-center text-zinc-500 text-sm">
-              [ AI Resume Preview ]
+            <div className="relative w-[360px] h-[280px] bg-zinc-800 border-2 border-zinc-700 flex items-center justify-center text-zinc-500 text-sm">
+              <Image src="/rege.ai-1.png" alt="resume preview" fill={true} />
             </div>
           </div>
         </div>
