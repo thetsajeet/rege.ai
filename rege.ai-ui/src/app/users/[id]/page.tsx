@@ -23,6 +23,9 @@ import Certification from "./components/Certifications/Certification";
 import Achievement from "./components/Achievements/Achievement";
 import BioLink from "./components/Bio/BioLink";
 import BioData from "./components/Bio/BioData";
+import ListSkill from "./components/Skills/ListSkill";
+import Navbar from "@/components/shared/Navbar";
+import Education from "./components/Education/Education";
 
 function ExperienceItem() {
   return (
@@ -46,66 +49,6 @@ function ExperienceItem() {
         <li>Integrated LLM-based JD parsing and resume matching</li>
       </ul>
     </div>
-  );
-}
-
-function SkillsSection() {
-  const skills = [
-    "React",
-    "Angular",
-    "Node.js",
-    "TypeScript",
-    "TailwindCSS",
-    "MongoDB",
-  ];
-
-  return (
-    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-      <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-        Skills
-      </h2>
-      <hr className="border-zinc-400 dark:border-zinc-700" />
-
-      <div className="flex flex-wrap gap-2">
-        {skills.map((skill, idx) => (
-          <Badge
-            key={idx}
-            className="bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 rounded-sm px-3 py-1 text-sm"
-          >
-            {skill}
-          </Badge>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Navbar() {
-  return (
-    <nav className="w-full px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900">
-      <div className="flex items-center justify-between">
-        {/* Left: Home button */}
-        <div className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-          <Link href={"/"}>
-            <Home className="size-5" />
-          </Link>
-        </div>
-
-        {/* Center: rege.ai/<username> */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 text-sm">
-          <Badge className="bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 px-2 py-0.5 rounded-sm">
-            rege.ai
-          </Badge>
-          <span className="text-zinc-600 dark:text-zinc-400">
-            <span className="mr-1">/</span>
-            <span>theaj7</span>
-          </span>
-        </div>
-
-        {/* Right: Empty to balance flex layout */}
-        <div className="w-12" />
-      </div>
-    </nav>
   );
 }
 
@@ -133,22 +76,11 @@ export default function UserPage() {
       <Project />
       {/* skills */}
       <div className="mt-4">
-        <SkillsSection />
+        <ListSkill />
       </div>
       {/* education */}
       <div className="mt-4">
-        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-          <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Education
-          </h2>
-          <hr className="border-zinc-400 dark:border-zinc-700" />
-
-          <div className="space-y-6">
-            <ExperienceItem />
-            <hr className="border-zinc-300 dark:border-zinc-800" />
-            <ExperienceItem />
-          </div>
-        </div>
+        <Education />
       </div>
       {/* achievements */}
       <div className="mt-4">
