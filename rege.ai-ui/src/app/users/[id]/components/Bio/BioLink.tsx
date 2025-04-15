@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 
-export default function BioLink() {
+export default function BioLink({ viewOnly }: { viewOnly: boolean }) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
   return (
     <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
@@ -22,36 +22,38 @@ export default function BioLink() {
         <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
           Links
         </h2>
-        {!editMode ? (
-          <Button
-            variant="outline"
-            size="icon"
-            className="cursor-pointer rounded-full"
-            onClick={() => toggleEditMode(true)}
-          >
-            <Pencil className="text-purple-600" />
-          </Button>
-        ) : (
-          <span className="flex justify-end gap-2">
+        {viewOnly &&
+          (!editMode ? (
             <Button
               variant="outline"
               size="icon"
               className="cursor-pointer rounded-full"
-              onClick={() => toggleEditMode(false)}
+              onClick={() => toggleEditMode(true)}
             >
-              <Check className="text-green-500" />
+              <Pencil className="text-purple-600" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="cursor-pointer rounded-full"
-              onClick={() => toggleEditMode(false)}
-            >
-              <X className="text-red-600" />
-            </Button>
-          </span>
-        )}
+          ) : (
+            <span className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                className="cursor-pointer rounded-full"
+                onClick={() => toggleEditMode(false)}
+              >
+                <Check className="text-green-500" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="cursor-pointer rounded-full"
+                onClick={() => toggleEditMode(false)}
+              >
+                <X className="text-red-600" />
+              </Button>
+            </span>
+          ))}
       </div>
+
       <hr className="border-zinc-400 dark:border-zinc-700" />
 
       <div className="grid md:grid-cols-3 gap-x-2 gap-y-4">

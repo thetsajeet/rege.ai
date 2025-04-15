@@ -1,18 +1,19 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Check, Pencil, X } from "lucide-react";
-import ProjectItem from "./ProjectItem";
+import { Check, Cross, Pencil, X } from "lucide-react";
+import EducationItem from "./EducationItem";
 import { useState } from "react";
 import CustomDialog from "@/components/shared/EditDialog";
 import {
   DialogHeader,
   DialogTitle,
+  DialogClose,
   DialogDescription,
 } from "@/components/ui/dialog";
-import ProjectForm from "./ProjectForm";
+import EducationForm from "./EducationForm";
 
-export default function Exp({ viewOnly }: { viewOnly: boolean }) {
+export default function Education({ viewOnly }: { viewOnly: boolean }) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
 
   return (
@@ -20,7 +21,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
       <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Projects
+            Education
           </h2>
           {viewOnly &&
             (!editMode ? (
@@ -58,7 +59,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
 
         <div className="space-y-6">
           {[1, 2].map((item: any, key: any) => (
-            <ProjectItem key={key} isEditting={editMode} />
+            <EducationItem key={key} isEditting={editMode} />
           ))}
         </div>
 
@@ -66,15 +67,15 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
           <CustomDialog
             trigger={
               <Button className="w-full mt-4 text-white bg-purple-600 hover:bg-purple-700 transition cursor-pointer">
-                + Add New Project
+                + Add New Education
               </Button>
             }
             content={
               <DialogHeader>
-                <DialogTitle>Add a new project</DialogTitle>
+                <DialogTitle>Add a new experience</DialogTitle>
                 <DialogDescription />
                 <div className="mt-2">
-                  <ProjectForm />
+                  <EducationForm />
                 </div>
               </DialogHeader>
             }
