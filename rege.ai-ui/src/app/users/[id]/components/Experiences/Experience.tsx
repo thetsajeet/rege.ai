@@ -18,6 +18,7 @@ import {
 import ExperienceForm from "./ExperienceForm";
 import { useResumeStore } from "@/lib/store";
 import { produce } from "immer";
+import { showCustomToast } from "@/lib/toast";
 
 export default function ListExperiences({ viewOnly }: { viewOnly: boolean }) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
@@ -61,11 +62,13 @@ export default function ListExperiences({ viewOnly }: { viewOnly: boolean }) {
     updateField("experiences", draftExperiences);
     setInitialExperiences(draftExperiences);
     toggleEditMode(false);
+    showCustomToast("success", "Experience updated");
   };
 
   const cancelDraftExperiences = () => {
     setDraftExperiences(produce(initialExperiences, (draft) => {}));
     toggleEditMode(false);
+    showCustomToast("info", "Experience changes cancelled");
   };
 
   return (
@@ -142,7 +145,7 @@ export default function ListExperiences({ viewOnly }: { viewOnly: boolean }) {
               </DialogHeader>
               <ExperienceForm
                 onDone={() => setModalOpen(false)}
-                addExperience={addDraftExperience}
+                updateExperience={addDraftExperience}
               />
             </DialogContent>
           </Dialog>

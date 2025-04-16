@@ -26,12 +26,13 @@ const EditContent = ({ onDone, addExperience, experienceData }: any) => {
       </DialogHeader>
       <ExperienceForm
         onDone={onDone}
-        addExperience={addExperience}
+        updateExperience={addExperience}
         experienceData={experienceData}
       />
     </DialogContent>
   );
 };
+
 const DeleteContent = ({ onDone, deleteExperience, experienceData }: any) => {
   return (
     <DialogContent>
@@ -89,6 +90,20 @@ export default function ExperienceItem({
     }
   };
 
+  const monthNumberToName: Record<string, string> = {
+    "0": "Jan",
+    "1": "Feb",
+    "2": "Mar",
+    "3": "Apr",
+    "4": "May",
+    "5": "Jun",
+    "6": "Jul",
+    "7": "Aug",
+    "8": "Sep",
+    "9": "Oct",
+    "10": "Nov",
+    "11": "Dec",
+  };
   return (
     <>
       <div className="space-y-1">
@@ -139,10 +154,12 @@ export default function ExperienceItem({
             <span>{experience.company}</span>
           </div>
           <p className="flex italic gap-1 text-sm text-zinc-500 dark:text-zinc-400 relative">
-            <span>{experience.startDate}</span>
+            <span>{`${monthNumberToName[experience.startMonth]}'${experience.startYear}`}</span>
             <span>-</span>
             <span>
-              {experience.isWorkingHere ? "Present" : experience.endDate}
+              {experience.isWorkingHere
+                ? "Present"
+                : `${monthNumberToName[experience.endMonth]}'${experience.endYear}`}
             </span>
           </p>
         </div>

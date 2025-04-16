@@ -22,44 +22,53 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { DialogClose } from "@/components/ui/dialog";
 
-const formSchema = z.object({
-  id: z.string().min(1),
-  role: z.string().min(1),
-  company: z.string().min(1),
-  startDate: z.string(),
-  endDate: z.string(),
-  points: z.array(z.string().min(1)),
-  isWorkingHere: z.boolean(),
-});
-
+const formSchema = z
+  .object({
+    id: z.string().min(1),
+    role: z.string().min(1),
+    company: z.string().min(1),
+    startMonth: z.string(),
+    endMonth: z.string().optional(),
+    startYear: z.string(),
+    endYear: z.string().optional(),
+    points: z.array(z.string().min(1)),
+    isWorkingHere: z.boolean(),
+  })
+  .refine((data) => data.isWorkingHere || !!data.endMonth, {
+    message: "End month is required",
+    path: ["endMonth"],
+  })
+  .refine((data) => data.isWorkingHere || !!data.endYear, {
+    message: "End year is required",
+    path: ["endYear"],
+  });
 type FormValues = z.infer<typeof formSchema>;
 
 const months = [
-  { value: "01", label: "Jan" },
-  { value: "02", label: "Feb" },
-  { value: "03", label: "Mar" },
-  { value: "04", label: "Apr" },
-  { value: "05", label: "May" },
-  { value: "06", label: "Jun" },
-  { value: "07", label: "Jul" },
-  { value: "08", label: "Aug" },
-  { value: "09", label: "Sep" },
-  { value: "10", label: "Oct" },
-  { value: "11", label: "Nov" },
-  { value: "12", label: "Dec" },
+  { value: 0, label: "Jan" },
+  { value: 1, label: "Feb" },
+  { value: 2, label: "Mar" },
+  { value: 3, label: "Apr" },
+  { value: 4, label: "May" },
+  { value: 5, label: "Jun" },
+  { value: 6, label: "Jul" },
+  { value: 7, label: "Aug" },
+  { value: 8, label: "Sep" },
+  { value: 9, label: "Oct" },
+  { value: 10, label: "Nov" },
+  { value: 11, label: "Dec" },
 ];
 
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 20 }, (_, i) => `${currentYear - i}`);
 
 export default function ExperienceForm({
-  addExperience,
+  updateExperience,
   onDone,
   experienceData,
 }: {
-  addExperience?: any;
+  updateExperience?: any;
   onDone?: any;
   experienceData?: ExperienceItem;
 }) {
@@ -71,8 +80,10 @@ export default function ExperienceForm({
         Date.now().toString() + (Math.random() * 1000).toString(),
       role: experienceData?.role || "",
       company: experienceData?.company || "",
-      startDate: experienceData?.startDate || "",
-      endDate: experienceData?.endDate || "",
+      startMonth: experienceData?.startMonth,
+      startYear: experienceData?.startYear,
+      endMonth: experienceData?.endMonth,
+      endYear: experienceData?.endYear,
       isWorkingHere: experienceData?.isWorkingHere || false,
       points: experienceData?.points || [""],
     },
@@ -84,7 +95,8 @@ export default function ExperienceForm({
   });
 
   function onSubmit(values: FormValues) {
-    addExperience(values);
+    console.log(values);
+    updateExperience(values);
     onDone();
   }
 
@@ -98,7 +110,7 @@ export default function ExperienceForm({
             <FormItem>
               <FormLabel>Role</FormLabel>
               <FormControl>
-                <Input placeholder="Software Engineer" {...field} />
+                <Input placeholder="Enter your role" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -111,43 +123,47 @@ export default function ExperienceForm({
             <FormItem>
               <FormLabel>Company</FormLabel>
               <FormControl>
-                <Input placeholder="ACME Inc." {...field} />
+                <Input placeholder="Enter your company" {...field} />
               </FormControl>
             </FormItem>
           )}
         />
 
-        <div className="grid">
+        <div>Start Date</div>
+        <div className="flex justify-start gap-2">
           <FormField
             control={form.control}
-            name="startDate"
+            name="startMonth"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Start Date</FormLabel>
                 <FormControl>
                   <div className="flex gap-2">
-                    <Select
-                    // onValueChange={(month) =>
-                    // field.onChange({ ...field.value, month })
-                    // }
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="w-[100px]">
                         <SelectValue placeholder="Month" />
                       </SelectTrigger>
                       <SelectContent className="h-[200px]">
                         {months.map((m) => (
-                          <SelectItem key={m.value} value={m.value}>
+                          <SelectItem key={m.value} value={m.value.toString()}>
                             {m.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-
-                    <Select
-                    // onValueChange={(year) =>
-                    // field.onChange({ ...field.value, year })
-                    // }
-                    >
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="startYear"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex gap-2">
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="w-[100px]">
                         <SelectValue placeholder="Year" />
                       </SelectTrigger>
@@ -187,38 +203,48 @@ export default function ExperienceForm({
           />
         </div>
 
-        <div className="grid">
+        <div>End Date</div>
+        <div className="flex justify-start gap-2">
           <FormField
             control={form.control}
-            name="endDate"
+            name="endMonth"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>End Date</FormLabel>
                 <FormControl>
                   <div className="flex gap-2">
                     <Select
                       disabled={watchIsWorkingHere}
-                      // onValueChange={(month) =>
-                      // field.onChange({ ...field.value, month })
-                      // }
+                      onValueChange={field.onChange}
+                      value={field.value}
                     >
                       <SelectTrigger className="w-[100px]">
                         <SelectValue placeholder="Month" />
                       </SelectTrigger>
                       <SelectContent className="h-[200px]">
                         {months.map((m) => (
-                          <SelectItem key={m.value} value={m.value}>
+                          <SelectItem key={m.value} value={m.value.toString()}>
                             {m.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="endYear"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex gap-2">
                     <Select
                       disabled={watchIsWorkingHere}
-                      // onValueChange={(year) =>
-                      // field.onChange({ ...field.value, year })
-                      // }
+                      onValueChange={field.onChange}
+                      value={field.value}
                     >
                       <SelectTrigger className="w-[100px]">
                         <SelectValue placeholder="Year" />
