@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -12,6 +13,9 @@ import { useState } from "react";
 import CustomDialog from "@/components/shared/EditDialog";
 import { useResumeStore } from "@/lib/store";
 import AchievementForm from "./AchievementForm";
+import { produce } from "immer";
+import { showCustomToast } from "@/lib/toast";
+import AchievementItem from "./AchievementItem";
 
 const monthNumberToName: Record<string, string> = {
   "0": "Jan",
@@ -33,6 +37,51 @@ export default function Achievement({ viewOnly }: { viewOnly: boolean }) {
   const { resume, updateField } = useResumeStore();
   const { achievements } = resume;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [initialAchievements, setInitialAchievements] = useState(() =>
+    produce(achievements, (draft) => { }),
+  );
+  const [draftAchievements, setDraftAchievements] = useState(() =>
+    produce(initialAchievements, (draft) => { }),
+  );
+
+  const addDraftAchievement = (data: any) => {
+    setDraftAchievements(
+      produce((draft: any) => {
+        draft.push(data);
+      }),
+    );
+  };
+
+  const editDraftAchievement = (data: any, id: string) => {
+    setDraftAchievements(
+      produce((draft: any) => {
+        const idx = draft.findIndex((d: any) => d.id === id);
+        if (idx !== -1) draft[idx] = data;
+      }),
+    );
+  };
+
+  const deleteDraftAchievement = (id: string) => {
+    setDraftAchievements(
+      produce((draft: any) => {
+        const idx = draft.findIndex((d: any) => d.id === id);
+        if (idx !== -1) draft.splice(idx, 1);
+      }),
+    );
+  };
+
+  const saveDraftAchievements = () => {
+    updateField("achievements", draftAchievements);
+    setInitialAchievements(draftAchievements);
+    toggleEditMode(false);
+    showCustomToast("success", "Achievement updated");
+  };
+
+  const cancelDraftAchievements = () => {
+    setDraftAchievements(produce(initialAchievements, (draft) => { }));
+    toggleEditMode(false);
+    showCustomToast("info", "Achievement changes cancelled");
+  };
 
   return (
     <div className="mt-4">
@@ -57,7 +106,7 @@ export default function Achievement({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={() => toggleEditMode(false)}
+                  onClick={saveDraftAchievements}
                 >
                   <Check className="text-green-500" />
                 </Button>
@@ -65,7 +114,7 @@ export default function Achievement({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={() => toggleEditMode(false)}
+                  onClick={cancelDraftAchievements}
                 >
                   <X className="text-red-600" />
                 </Button>
@@ -75,26 +124,20 @@ export default function Achievement({ viewOnly }: { viewOnly: boolean }) {
 
         <hr className="border-zinc-400 dark:border-zinc-700" />
 
-        <div className="space-y-3 divide-y">
-          {achievements.map((item, idx) => (
-            <div
-              key={idx}
-              className="flex justify-between items-center text-sm text-zinc-700 dark:text-zinc-300 py-1"
-            >
-              <span className="flex items-center gap-1">
-                {editMode && (
-                  <>
-                    <Pencil className="text-yellow-500 size-4 cursor-pointer" />
-                    <Trash className="text-red-500 size-4 cursor-pointer" />
-                  </>
-                )}
-                {item.text}
-              </span>
-              <p className="flex italic gap-1 text-sm text-zinc-500 dark:text-zinc-400 relative">
-                <span>{`${monthNumberToName[item.month]}'${item.year}`}</span>
-              </p>
-            </div>
-          ))}
+        <div className="space-y-3">
+          {draftAchievements.length > 0 ? (
+            draftAchievements.map((item, idx) => (
+              <AchievementItem
+                key={idx}
+                achievement={item}
+                isEditting={editMode}
+                editDraftAchievement={editDraftAchievement}
+                deleteDraftAchievement={deleteDraftAchievement}
+              />
+            ))
+          ) : (
+            <div>No achievements added.</div>
+          )}
         </div>
 
         {editMode && (
@@ -112,7 +155,7 @@ export default function Achievement({ viewOnly }: { viewOnly: boolean }) {
                 <DialogTitle>Add Achievement</DialogTitle>
                 <DialogDescription />
                 <AchievementForm
-                  updateAchievement={() => { }}
+                  updateAchievement={addDraftAchievement}
                   onDone={() => setModalOpen(false)}
                 />
               </DialogHeader>

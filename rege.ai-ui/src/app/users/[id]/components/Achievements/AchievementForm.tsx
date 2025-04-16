@@ -23,12 +23,14 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 
+// TODO: Add refinement to check for month, year.
 const formSchema = z.object({
     id: z.string().min(1),
     text: z.string().min(1),
     month: z.string().optional(),
     year: z.string().optional(),
 });
+
 type FormValues = z.infer<typeof formSchema>;
 
 const months = [
