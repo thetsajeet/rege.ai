@@ -9,3 +9,22 @@ type ExperienceItem = {
   isWorkingHere: boolean;
   points: string[];
 };
+
+type ProjectItem = {
+  id: string;
+  title: string;
+  links?: { label: string; value: string }[];
+  points: string[];
+};
+
+type EducationItem = {
+  id: string;
+  degree: string;
+  university: string;
+  startMonth: string;
+  startYear: string;
+  endMonth?: string;
+  endYear?: string;
+  isStudyingHere: boolean;
+  points: string[];
+};

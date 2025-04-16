@@ -7,23 +7,6 @@ export type Link = {
   value: string;
 };
 
-export type ProjectItem = {
-  role: string;
-  startDate: string;
-  endDate?: string;
-  isWorkingHere: boolean;
-  points: string[];
-};
-
-export type EducationItem = {
-  role: string;
-  company: string;
-  startDate: string;
-  endDate?: string;
-  isWorkingHere: boolean;
-  points: string[];
-};
-
 export type Achievement = {
   value: string;
   month: string;

@@ -286,7 +286,12 @@ export default function ExperienceForm({
         />
 
         <div className="flex justify-end gap-2">
-          <Button variant="outline" className="cursor-pointer">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={onDone}
+            type="button"
+          >
             Cancel
           </Button>
           <Button className="cursor-pointer text-white bg-purple-600 hover:bg-purple-700">

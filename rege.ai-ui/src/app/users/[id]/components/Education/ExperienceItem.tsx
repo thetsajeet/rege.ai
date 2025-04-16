@@ -11,29 +11,29 @@ import {
 } from "@/components/ui/dialog";
 import { Delete, Pencil, Trash } from "lucide-react";
 import EditDialog from "@/components/shared/EditDialog";
-import ProjectForm from "./ProjectForm";
+import ExperienceForm from "./ExperienceForm";
 import { useResumeStore } from "@/lib/store";
 import { useState } from "react";
 import { produce } from "immer";
 import { DialogClose } from "@radix-ui/react-dialog";
 
-const EditContent = ({ onDone, addProject, projectData }: any) => {
+const EditContent = ({ onDone, addExperience, experienceData }: any) => {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Add Project</DialogTitle>
+        <DialogTitle>Add Experience</DialogTitle>
         <DialogDescription />
       </DialogHeader>
-      <ProjectForm
+      <ExperienceForm
         onDone={onDone}
-        updateProject={addProject}
-        projectData={projectData}
+        updateExperience={addExperience}
+        experienceData={experienceData}
       />
     </DialogContent>
   );
 };
 
-const DeleteContent = ({ onDone, deleteProject, projectData }: any) => {
+const DeleteContent = ({ onDone, deleteExperience, experienceData }: any) => {
   return (
     <DialogContent>
       <DialogHeader>
@@ -52,7 +52,7 @@ const DeleteContent = ({ onDone, deleteProject, projectData }: any) => {
               className="cursor-pointer"
               variant="destructive"
               onClick={() => {
-                deleteProject(projectData.id);
+                deleteExperience(experienceData.id);
                 onDone();
               }}
             >
@@ -65,24 +65,23 @@ const DeleteContent = ({ onDone, deleteProject, projectData }: any) => {
   );
 };
 
-export default function ProjectItem({
+export default function ExperienceItem({
   isEditting,
-  project,
-  editDraftProject,
-  deleteDraftProject,
+  experience,
+  editDraftExperience,
+  deleteDraftExperience,
 }: {
   isEditting: boolean;
-  project: ProjectItem;
-  editDraftProject?: any;
-  deleteDraftProject?: any;
+  experience: ExperienceItem;
+  editDraftExperience?: any;
+  deleteDraftExperience?: any;
 }) {
   const [modal, setModal] = useState({ open: false, type: null });
-
-  const editProject = (data: any) => {
-    editDraftProject(data, project.id);
+  const editExperience = (data: any) => {
+    editDraftExperience(data, experience.id);
   };
-  const handleDeleteProject = (id: any) => {
-    deleteDraftProject(id);
+  const handleDeleteExperience = (id: any) => {
+    deleteDraftExperience(id);
   };
 
   const handleModalChange = (open: boolean) => {
@@ -91,6 +90,20 @@ export default function ProjectItem({
     }
   };
 
+  const monthNumberToName: Record<string, string> = {
+    "0": "Jan",
+    "1": "Feb",
+    "2": "Mar",
+    "3": "Apr",
+    "4": "May",
+    "5": "Jun",
+    "6": "Jul",
+    "7": "Aug",
+    "8": "Sep",
+    "9": "Oct",
+    "10": "Nov",
+    "11": "Dec",
+  };
   return (
     <>
       <div className="space-y-1">
@@ -119,15 +132,15 @@ export default function ProjectItem({
               {modal.type === "edit" && (
                 <EditContent
                   onDone={() => setModal({ open: false, type: null })}
-                  addProject={editProject}
-                  projectData={project}
+                  addExperience={editExperience}
+                  experienceData={experience}
                 />
               )}
               {modal.type === "delete" && (
                 <DeleteContent
                   onDone={() => setModal({ open: false, type: null })}
-                  deleteProject={handleDeleteProject}
-                  projectData={project}
+                  deleteExperience={handleDeleteExperience}
+                  experienceData={experience}
                 />
               )}
             </>
@@ -136,14 +149,24 @@ export default function ProjectItem({
 
         <div className="flex justify-between items-start">
           <div className="flex gap-1">
-            <span>{project.title}</span>
-            {/*TODO: Add links*/}
+            <span>{experience.role}</span>
+            <span>&middot;</span>
+            <span>{experience.company}</span>
           </div>
+          <p className="flex italic gap-1 text-sm text-zinc-500 dark:text-zinc-400 relative">
+            <span>{`${monthNumberToName[experience.startMonth]}'${experience.startYear}`}</span>
+            <span>-</span>
+            <span>
+              {experience.isWorkingHere
+                ? "Present"
+                : `${monthNumberToName[experience.endMonth]}'${experience.endYear}`}
+            </span>
+          </p>
         </div>
 
         <ul className="my-3 list-disc list-inside space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
-          {project.points.length > 0 ? (
-            project.points.map((p: any) => <li key={p}>{p}</li>)
+          {experience.points.length > 0 ? (
+            experience.points.map((p: any) => <li key={p}>{p}</li>)
           ) : (
             <span>No highlights added</span>
           )}

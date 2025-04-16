@@ -2,14 +2,13 @@
 
 import { notFound, useParams } from "next/navigation";
 import Exp from "./components/Experiences/Experience";
-import Project from "./components/Projects/Project";
 import Certification from "./components/Certifications/Certification";
 import Achievement from "./components/Achievements/Achievement";
 import BioLink from "./components/Bio/BioLink";
 import BioData from "./components/Bio/BioData";
 import ListSkill from "./components/Skills/ListSkill";
 import Navbar from "@/components/shared/Navbar";
-import Education from "./components/Education/Education";
+import ListProjects from "./components/Projects/ListProjects";
 
 export default function UserPage() {
   const { id } = useParams();
@@ -34,8 +33,8 @@ export default function UserPage() {
       {/* work experience */}
       <Exp viewOnly={viewOnly} />
       {/* projects */}
-      {/* <Project viewOnly={viewOnly} />
-      <div className="mt-4">
+      <ListProjects viewOnly={viewOnly} />
+      {/*  <div className="mt-4">
         <ListSkill viewOnly={viewOnly} />
       </div>
       <div className="mt-4">
