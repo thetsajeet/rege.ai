@@ -12,7 +12,7 @@ import {
 import { Delete, Pencil, Trash } from "lucide-react";
 import EditDialog from "@/components/shared/EditDialog";
 import ExperienceForm from "./ExperienceForm";
-import { ExperienceItem as ExpItem, useResumeStore } from "@/lib/store";
+import { useResumeStore } from "@/lib/store";
 import { useState } from "react";
 import { produce } from "immer";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -71,7 +71,7 @@ export default function ExperienceItem({
   deleteDraftExperience,
 }: {
   isEditting: boolean;
-  experience: ExpItem;
+  experience: ExperienceItem;
   editDraftExperience?: any;
   deleteDraftExperience?: any;
 }) {
@@ -148,9 +148,11 @@ export default function ExperienceItem({
         </div>
 
         <ul className="my-3 list-disc list-inside space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
-          {experience.points.map((p: any) => (
-            <li key={p}>{p}</li>
-          ))}
+          {experience.points.length > 0 ? (
+            experience.points.map((p: any) => <li key={p}>{p}</li>)
+          ) : (
+            <span>No highlights added</span>
+          )}
         </ul>
       </div>
 

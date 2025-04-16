@@ -23,7 +23,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
-import { ExperienceItem } from "@/lib/store";
 
 const formSchema = z.object({
   id: z.string().min(1),

@@ -7,16 +7,6 @@ export type Link = {
   value: string;
 };
 
-export type ExperienceItem = {
-  id: string;
-  role: string;
-  company: string;
-  startDate: string;
-  endDate?: string;
-  isWorkingHere: boolean;
-  points: string[];
-};
-
 export type ProjectItem = {
   role: string;
   startDate: string;
@@ -102,7 +92,6 @@ export const useResumeStore = create<ResumeStore>()(
     updateExperience: (data: ExperienceItem, id: string) => {
       set((state) => {
         state.resume.experiences = state.resume.experiences.map((exp) => {
-          console.log(exp.id, id);
           if (exp.id === id) return data;
           return exp;
         });

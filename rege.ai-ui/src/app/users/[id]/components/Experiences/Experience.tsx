@@ -19,20 +19,20 @@ import ExperienceForm from "./ExperienceForm";
 import { useResumeStore } from "@/lib/store";
 import { produce } from "immer";
 
-export default function Exp({ viewOnly }: { viewOnly: boolean }) {
+export default function ListExperiences({ viewOnly }: { viewOnly: boolean }) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
-  const { resume, updateField } = useResumeStore();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { resume, updateField } = useResumeStore();
   const { experiences } = resume;
-  const [initialExperiencesState, setInitialExperiencesState] = useState(() =>
+  const [initialExperiences, setInitialExperiences] = useState(() =>
     produce(experiences, (draft) => {}),
   );
-  const [expDraft, setExpDraft] = useState(() =>
-    produce(initialExperiencesState, (draft) => {}),
+  const [draftExperiences, setDraftExperiences] = useState(() =>
+    produce(initialExperiences, (draft) => {}),
   );
 
-  const addExperience = (data: any) => {
-    setExpDraft(
+  const addDraftExperience = (data: any) => {
+    setDraftExperiences(
       produce((draft: any) => {
         draft.push(data);
       }),
@@ -40,7 +40,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
   };
 
   const editDraftExperience = (data: any, id: string) => {
-    setExpDraft(
+    setDraftExperiences(
       produce((draft: any) => {
         const idx = draft.findIndex((d: any) => d.id === id);
         if (idx !== -1) draft[idx] = data;
@@ -49,7 +49,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
   };
 
   const deleteDraftExperience = (id: string) => {
-    setExpDraft(
+    setDraftExperiences(
       produce((draft: any) => {
         const idx = draft.findIndex((d: any) => d.id === id);
         if (idx !== -1) draft.splice(idx, 1);
@@ -57,14 +57,14 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
     );
   };
 
-  const saveExpState = () => {
-    updateField("experiences", expDraft);
-    setInitialExperiencesState(expDraft);
+  const saveDraftExperiences = () => {
+    updateField("experiences", draftExperiences);
+    setInitialExperiences(draftExperiences);
     toggleEditMode(false);
   };
 
-  const cancelExpState = () => {
-    setExpDraft(produce(initialExperiencesState, (draft) => {}));
+  const cancelDraftExperiences = () => {
+    setDraftExperiences(produce(initialExperiences, (draft) => {}));
     toggleEditMode(false);
   };
 
@@ -91,7 +91,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={saveExpState}
+                  onClick={saveDraftExperiences}
                 >
                   <Check className="text-green-500" />
                 </Button>
@@ -99,7 +99,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={cancelExpState}
+                  onClick={cancelDraftExperiences}
                 >
                   <X className="text-red-600" />
                 </Button>
@@ -110,15 +110,19 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
         <hr className="border-zinc-400 dark:border-zinc-700" />
 
         <div className="space-y-6">
-          {expDraft.map((item: any, key: any) => (
-            <ExperienceItem
-              experience={item}
-              key={key}
-              isEditting={editMode}
-              editDraftExperience={editDraftExperience}
-              deleteDraftExperience={deleteDraftExperience}
-            />
-          ))}
+          {draftExperiences.length > 0 ? (
+            draftExperiences.map((item: any, key: any) => (
+              <ExperienceItem
+                experience={item}
+                key={key}
+                isEditting={editMode}
+                editDraftExperience={editDraftExperience}
+                deleteDraftExperience={deleteDraftExperience}
+              />
+            ))
+          ) : (
+            <div>No experience added.</div>
+          )}
         </div>
 
         {editMode && (
@@ -138,7 +142,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
               </DialogHeader>
               <ExperienceForm
                 onDone={() => setModalOpen(false)}
-                addExperience={addExperience}
+                addExperience={addDraftExperience}
               />
             </DialogContent>
           </Dialog>
