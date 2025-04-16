@@ -100,14 +100,18 @@ export default function ListSkill({ viewOnly }: { viewOnly: boolean }) {
         <hr className="border-zinc-400 dark:border-zinc-700" />
 
         <div className="flex flex-wrap gap-2">
-          {draftSkills.map((skill, idx) => (
-            <SkillItem
-              key={idx}
-              skill={skill}
-              isEditting={editMode}
-              deleteDraftSkill={deleteDraftSkill}
-            />
-          ))}
+          {draftSkills.length > 0 ? (
+            draftSkills.map((skill, idx) => (
+              <SkillItem
+                key={idx}
+                skill={skill}
+                isEditting={editMode}
+                deleteDraftSkill={deleteDraftSkill}
+              />
+            ))
+          ) : !editMode ? (
+            <div className="w-full">No skill added.</div>
+          ) : null}
           {editMode && (
             <Dialog open={modalOpen} onOpenChange={setModalOpen} modal={false}>
               <DialogTrigger asChild>

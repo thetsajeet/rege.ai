@@ -39,7 +39,6 @@ export default function SkillForm({
     });
 
     function onSubmit(values: FormValues) {
-        console.log(values);
         updateSkill(values);
         onDone();
     }
