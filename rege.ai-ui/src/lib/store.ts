@@ -102,7 +102,8 @@ export const useResumeStore = create<ResumeStore>()(
     updateExperience: (data: ExperienceItem, id: string) => {
       set((state) => {
         state.resume.experiences = state.resume.experiences.map((exp) => {
-          if (exp.id === data.id) return data;
+          console.log(exp.id, id);
+          if (exp.id === id) return data;
           return exp;
         });
       });

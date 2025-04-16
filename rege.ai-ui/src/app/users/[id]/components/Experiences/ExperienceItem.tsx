@@ -12,18 +12,23 @@ import {
 import { Delete, Pencil, Trash } from "lucide-react";
 import EditDialog from "@/components/shared/EditDialog";
 import ExperienceForm from "./ExperienceForm";
-import { ExperienceItem as ExpItem } from "@/lib/store";
+import { ExperienceItem as ExpItem, useResumeStore } from "@/lib/store";
 import { useState } from "react";
+import { produce } from "immer";
 
 export default function ExperienceItem({
   isEditting,
   experience,
+  editDraftExperience,
 }: {
   isEditting: boolean;
   experience: ExpItem;
+  editDraftExperience?: any;
 }) {
   const [modal, setModal] = useState({ open: false, type: null });
-  const editExperience = () => {};
+  const editExperience = (data: any) => {
+    editDraftExperience(data, experience.id);
+  };
   const EditContent = () => {
     return (
       <DialogContent>
@@ -34,6 +39,7 @@ export default function ExperienceItem({
         <ExperienceForm
           onDone={() => setModal({ open: false, type: null })}
           addExperience={editExperience}
+          experienceData={experience}
         />
       </DialogContent>
     );

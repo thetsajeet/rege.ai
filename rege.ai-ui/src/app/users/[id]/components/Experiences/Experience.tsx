@@ -33,9 +33,20 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
   );
 
   const addExperience = (data: any) => {
+    console.log(data);
     setExpDraft(
       produce((draft: any) => {
         draft.push(data);
+      }),
+    );
+  };
+
+  const editDraftExperience = (data: any, id: string) => {
+    console.log(data, id);
+    setExpDraft(
+      produce((draft: any) => {
+        const idx = draft.findIndex((d: any) => d.id === id);
+        if (idx !== -1) draft[idx] = data;
       }),
     );
   };
@@ -94,7 +105,12 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
 
         <div className="space-y-6">
           {expDraft.map((item: any, key: any) => (
-            <ExperienceItem experience={item} key={key} isEditting={editMode} />
+            <ExperienceItem
+              experience={item}
+              key={key}
+              isEditting={editMode}
+              editDraftExperience={editDraftExperience}
+            />
           ))}
         </div>
 

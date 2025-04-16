@@ -23,8 +23,10 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
+import { ExperienceItem } from "@/lib/store";
 
 const formSchema = z.object({
+  id: z.string().min(1),
   role: z.string().min(1),
   company: z.string().min(1),
   startDate: z.string(),
@@ -56,19 +58,24 @@ const years = Array.from({ length: 20 }, (_, i) => `${currentYear - i}`);
 export default function ExperienceForm({
   addExperience,
   onDone,
+  experienceData,
 }: {
   addExperience?: any;
   onDone?: any;
+  experienceData?: ExperienceItem;
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      role: "",
-      company: "",
-      startDate: "",
-      endDate: "",
-      isWorkingHere: false,
-      points: [""],
+      id:
+        experienceData?.id ||
+        Date.now().toString() + (Math.random() * 1000).toString(),
+      role: experienceData?.role || "",
+      company: experienceData?.company || "",
+      startDate: experienceData?.startDate || "",
+      endDate: experienceData?.endDate || "",
+      isWorkingHere: experienceData?.isWorkingHere || false,
+      points: experienceData?.points || [""],
     },
   });
 
