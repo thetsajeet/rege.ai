@@ -1,43 +1,5 @@
-import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-
-export type Link = {
-  label: string;
-  prefix?: string;
-  value: string;
-};
-
-export type Achievement = {
-  value: string;
-  month: string;
-  year: string;
-};
-
-export type Certification = {
-  image?: string;
-  title: string;
-  issuedBy: string;
-  issueDate: string;
-};
-
-export type Bio = {
-  userId: string;
-  fullName: string;
-  profession: string;
-  dob: string;
-  location: string;
-};
-
-type Resume = {
-  bio: Bio;
-  links: Link[];
-  experiences: ExperienceItem[];
-  projects: ProjectItem[];
-  education: EducationItem[];
-  skills: string[];
-  achievements: Achievement[];
-  certifications: Certification[];
-};
+import { create } from "zustand";
 
 type ResumeStore = {
   resume: Resume;
@@ -60,8 +22,19 @@ export const useResumeStore = create<ResumeStore>()(
       experiences: [],
       projects: [],
       education: [],
-      skills: [],
-      achievements: [],
+      skills: [
+        { id: "1", label: "Angular" },
+        { id: "2", label: "React" },
+        { id: "3", label: "Node" },
+      ],
+      achievements: [
+        {
+          id: "1",
+          text: 'won "Best Innovation Award"',
+          year: "2024",
+          month: "1",
+        },
+      ],
       certifications: [],
     },
     setResume: (data: Partial<Resume>) =>

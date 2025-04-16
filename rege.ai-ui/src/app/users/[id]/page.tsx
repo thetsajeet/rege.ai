@@ -35,15 +35,10 @@ export default function UserPage() {
       <Exp viewOnly={viewOnly} />
       {/* projects */}
       <ListProjects viewOnly={viewOnly} />
-      {/*  <div className="mt-4">
-        <ListSkill viewOnly={viewOnly} />
-      </div>
-      */}
+      <ListSkill viewOnly={viewOnly} />
       <ListEducations viewOnly={viewOnly} />
+      <Achievement viewOnly={viewOnly} />
       {/* <div className="mt-4">
-        <Achievement viewOnly={viewOnly} />
-      </div>
-      <div className="mt-4">
         <Certification viewOnly={viewOnly} />
       </div> */}
     </div>

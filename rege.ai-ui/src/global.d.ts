@@ -28,3 +28,49 @@ type EducationItem = {
   isPursuing: boolean;
   points: string[];
 };
+
+type Link = {
+  id: string;
+  label: string;
+  prefix?: string;
+  value: string;
+};
+
+type Achievement = {
+  id: string;
+  text: string;
+  month?: string;
+  year?: string;
+};
+
+type Certification = {
+  id: string;
+  image?: string;
+  title: string;
+  issuedBy: string;
+  issueDate: string;
+};
+
+type Bio = {
+  userId: string;
+  fullName: string;
+  profession: string;
+  dob: string;
+  location: string;
+};
+
+type Skill = {
+  id: string;
+  label: string;
+};
+
+type Resume = {
+  bio: Bio;
+  links: Link[];
+  experiences: ExperienceItem[];
+  projects: ProjectItem[];
+  education: EducationItem[];
+  skills: Skill[];
+  achievements: Achievement[];
+  certifications: Certification[];
+};

@@ -10,23 +10,53 @@ import {
 } from "@/components/ui/dialog";
 import { Check, Pencil, PlusCircle, X } from "lucide-react";
 import { useState } from "react";
+import SkillForm from "./SkillForm";
+import SkillItem from "./SkillItem";
+import { useResumeStore } from "@/lib/store";
+import { produce } from "immer";
+import { showCustomToast } from "@/lib/toast";
 
 export default function ListSkill({ viewOnly }: { viewOnly: boolean }) {
-  const skills = [
-    "React",
-    "Angular",
-    "Node.js",
-    "TypeScript",
-    "TailwindCSS",
-    "MongoDB",
-  ];
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [editMode, toggleEditMode] = useState(false);
-  const saveDraftSkills = () => {
-    toggleEditMode(false);
+  const { resume, updateField } = useResumeStore();
+  const { skills } = resume;
+
+  const [initialSkills, setInitialSkills] = useState(() =>
+    produce(skills, (draft) => { }),
+  );
+  const [draftSkills, setDraftSkills] = useState(() =>
+    produce(initialSkills, (draft) => { }),
+  );
+
+  const addDraftSkill = (data: any) => {
+    setDraftSkills(
+      produce((draft: any) => {
+        draft.push(data);
+      }),
+    );
   };
-  const cancelDraftSkills = () => {
+
+  const deleteDraftSkill = (id: string) => {
+    setDraftSkills(
+      produce((draft: any) => {
+        const idx = draft.findIndex((d: any) => d.id === id);
+        if (idx !== -1) draft.splice(idx, 1);
+      }),
+    );
+  };
+
+  const saveDraftSkills = () => {
+    updateField("skills", draftSkills);
+    setInitialSkills(draftSkills);
     toggleEditMode(false);
+    showCustomToast("success", "Skill updated");
+  };
+
+  const cancelDraftSkills = () => {
+    setDraftSkills(produce(initialSkills, (draft) => { }));
+    toggleEditMode(false);
+    showCustomToast("info", "Skill changes cancelled");
   };
 
   return (
@@ -70,13 +100,13 @@ export default function ListSkill({ viewOnly }: { viewOnly: boolean }) {
         <hr className="border-zinc-400 dark:border-zinc-700" />
 
         <div className="flex flex-wrap gap-2">
-          {skills.map((skill, idx) => (
-            <Badge
+          {draftSkills.map((skill, idx) => (
+            <SkillItem
               key={idx}
-              className="bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 rounded-sm px-3 py-1 text-sm"
-            >
-              {skill}
-            </Badge>
+              skill={skill}
+              isEditting={editMode}
+              deleteDraftSkill={deleteDraftSkill}
+            />
           ))}
           {editMode && (
             <Dialog open={modalOpen} onOpenChange={setModalOpen} modal={false}>
@@ -92,6 +122,10 @@ export default function ListSkill({ viewOnly }: { viewOnly: boolean }) {
                 <DialogHeader>
                   <DialogTitle>Add Skill</DialogTitle>
                   <DialogDescription />
+                  <SkillForm
+                    onDone={() => setModalOpen(false)}
+                    updateSkill={addDraftSkill}
+                  />
                 </DialogHeader>
               </DialogContent>
             </Dialog>
