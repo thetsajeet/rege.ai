@@ -21,15 +21,18 @@ export function showCustomToast(
     },
   }[type];
 
-  toast.custom((t) => (
-    <div
-      className={cn(
-        "flex items-center gap-3 px-4 py-3 rounded-md shadow-lg w-[300px] transition-all transform",
-        config.bg,
-      )}
-    >
-      {config.icon}
-      <span className="text-sm font-medium">{message}</span>
-    </div>
-  ));
+  toast.custom(
+    (t) => (
+      <div
+        className={cn(
+          "flex items-center gap-3 px-4 py-3 rounded-md shadow-lg w-[300px] transition-all transform",
+          config.bg,
+        )}
+      >
+        {config.icon}
+        <span className="text-sm font-medium">{message}</span>
+      </div>
+    ),
+    { duration: 1500 },
+  );
 }

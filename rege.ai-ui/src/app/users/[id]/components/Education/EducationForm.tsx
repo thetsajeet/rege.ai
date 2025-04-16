@@ -26,23 +26,24 @@ import { Button } from "@/components/ui/button";
 const formSchema = z
   .object({
     id: z.string().min(1),
-    role: z.string().min(1),
-    company: z.string().min(1),
+    degree: z.string().min(1),
+    university: z.string().min(1),
     startMonth: z.string(),
     endMonth: z.string().optional(),
     startYear: z.string(),
     endYear: z.string().optional(),
     points: z.array(z.string().min(1)),
-    isWorkingHere: z.boolean(),
+    isPursuing: z.boolean(),
   })
-  .refine((data) => data.isWorkingHere || !!data.endMonth, {
+  .refine((data) => data.isPursuing || !!data.endMonth, {
     message: "End month is required",
     path: ["endMonth"],
   })
-  .refine((data) => data.isWorkingHere || !!data.endYear, {
+  .refine((data) => data.isPursuing || !!data.endYear, {
     message: "End year is required",
     path: ["endYear"],
   });
+
 type FormValues = z.infer<typeof formSchema>;
 
 const months = [
@@ -63,40 +64,40 @@ const months = [
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 20 }, (_, i) => `${currentYear - i}`);
 
-export default function ExperienceForm({
-  updateExperience,
+export default function EducationForm({
+  updateEducation,
   onDone,
-  experienceData,
+  educationData,
 }: {
-  updateExperience?: any;
+  updateEducation?: any;
   onDone?: any;
-  experienceData?: ExperienceItem;
+  educationData?: EducationItem;
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       id:
-        experienceData?.id ||
+        educationData?.id ||
         Date.now().toString() + (Math.random() * 1000).toString(),
-      role: experienceData?.role || "",
-      company: experienceData?.company || "",
-      startMonth: experienceData?.startMonth,
-      startYear: experienceData?.startYear,
-      endMonth: experienceData?.endMonth,
-      endYear: experienceData?.endYear,
-      isWorkingHere: experienceData?.isWorkingHere || false,
-      points: experienceData?.points || [""],
+      degree: educationData?.degree || "",
+      university: educationData?.university || "",
+      startMonth: educationData?.startMonth,
+      startYear: educationData?.startYear,
+      endMonth: educationData?.endMonth,
+      endYear: educationData?.endYear,
+      isPursuing: educationData?.isPursuing || false,
+      points: educationData?.points || [""],
     },
   });
 
   const watchIsWorkingHere = useWatch({
     control: form.control,
-    name: "isWorkingHere",
+    name: "isPursuing",
   });
 
   function onSubmit(values: FormValues) {
     console.log(values);
-    updateExperience(values);
+    updateEducation(values);
     onDone();
   }
 
@@ -105,12 +106,12 @@ export default function ExperienceForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="role"
+          name="degree"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Role</FormLabel>
+              <FormLabel>Degree</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your role" {...field} />
+                <Input placeholder="Enter your degree" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -118,12 +119,12 @@ export default function ExperienceForm({
 
         <FormField
           control={form.control}
-          name="company"
+          name="university"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Company</FormLabel>
+              <FormLabel>University</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your company" {...field} />
+                <Input placeholder="Enter your university" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -186,7 +187,7 @@ export default function ExperienceForm({
         <div>
           <FormField
             control={form.control}
-            name="isWorkingHere"
+            name="isPursuing"
             render={({ field }) => (
               <FormItem className="flex items-end space-x-1">
                 <FormControl>
@@ -196,7 +197,7 @@ export default function ExperienceForm({
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
-                  <FormLabel>Are you currently working in this role?</FormLabel>
+                  <FormLabel>Are you currently pursuing this course?</FormLabel>
                 </div>
               </FormItem>
             )}
@@ -286,7 +287,12 @@ export default function ExperienceForm({
         />
 
         <div className="flex justify-end gap-2">
-          <Button variant="outline" className="cursor-pointer">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={onDone}
+            type="button"
+          >
             Cancel
           </Button>
           <Button className="cursor-pointer text-white bg-purple-600 hover:bg-purple-700">

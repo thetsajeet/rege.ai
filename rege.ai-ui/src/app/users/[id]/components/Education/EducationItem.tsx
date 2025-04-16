@@ -11,29 +11,29 @@ import {
 } from "@/components/ui/dialog";
 import { Delete, Pencil, Trash } from "lucide-react";
 import EditDialog from "@/components/shared/EditDialog";
-import ExperienceForm from "./ExperienceForm";
+import EducationForm from "./EducationForm";
 import { useResumeStore } from "@/lib/store";
 import { useState } from "react";
 import { produce } from "immer";
 import { DialogClose } from "@radix-ui/react-dialog";
 
-const EditContent = ({ onDone, addExperience, experienceData }: any) => {
+const EditContent = ({ onDone, addEducation, educationData }: any) => {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Add Experience</DialogTitle>
+        <DialogTitle>Add Education</DialogTitle>
         <DialogDescription />
       </DialogHeader>
-      <ExperienceForm
+      <EducationForm
         onDone={onDone}
-        updateExperience={addExperience}
-        experienceData={experienceData}
+        updateEducation={addEducation}
+        educationData={educationData}
       />
     </DialogContent>
   );
 };
 
-const DeleteContent = ({ onDone, deleteExperience, experienceData }: any) => {
+const DeleteContent = ({ onDone, deleteEducation, educationData }: any) => {
   return (
     <DialogContent>
       <DialogHeader>
@@ -52,7 +52,7 @@ const DeleteContent = ({ onDone, deleteExperience, experienceData }: any) => {
               className="cursor-pointer"
               variant="destructive"
               onClick={() => {
-                deleteExperience(experienceData.id);
+                deleteEducation(educationData.id);
                 onDone();
               }}
             >
@@ -65,23 +65,23 @@ const DeleteContent = ({ onDone, deleteExperience, experienceData }: any) => {
   );
 };
 
-export default function ExperienceItem({
+export default function EducationItem({
   isEditting,
-  experience,
-  editDraftExperience,
-  deleteDraftExperience,
+  education,
+  editDraftEducation,
+  deleteDraftEducation,
 }: {
   isEditting: boolean;
-  experience: ExperienceItem;
-  editDraftExperience?: any;
-  deleteDraftExperience?: any;
+  education: EducationItem;
+  editDraftEducation?: any;
+  deleteDraftEducation?: any;
 }) {
   const [modal, setModal] = useState({ open: false, type: null });
-  const editExperience = (data: any) => {
-    editDraftExperience(data, experience.id);
+  const editEducation = (data: any) => {
+    editDraftEducation(data, education.id);
   };
-  const handleDeleteExperience = (id: any) => {
-    deleteDraftExperience(id);
+  const handleDeleteEducation = (id: any) => {
+    deleteDraftEducation(id);
   };
 
   const handleModalChange = (open: boolean) => {
@@ -132,15 +132,15 @@ export default function ExperienceItem({
               {modal.type === "edit" && (
                 <EditContent
                   onDone={() => setModal({ open: false, type: null })}
-                  addExperience={editExperience}
-                  experienceData={experience}
+                  addEducation={editEducation}
+                  educationData={education}
                 />
               )}
               {modal.type === "delete" && (
                 <DeleteContent
                   onDone={() => setModal({ open: false, type: null })}
-                  deleteExperience={handleDeleteExperience}
-                  experienceData={experience}
+                  deleteEducation={handleDeleteEducation}
+                  educationData={education}
                 />
               )}
             </>
@@ -149,24 +149,24 @@ export default function ExperienceItem({
 
         <div className="flex justify-between items-start">
           <div className="flex gap-1">
-            <span>{experience.role}</span>
+            <span>{education.degree}</span>
             <span>&middot;</span>
-            <span>{experience.company}</span>
+            <span>{education.university}</span>
           </div>
           <p className="flex italic gap-1 text-sm text-zinc-500 dark:text-zinc-400 relative">
-            <span>{`${monthNumberToName[experience.startMonth]}'${experience.startYear}`}</span>
+            <span>{`${monthNumberToName[education.startMonth]}'${education.startYear}`}</span>
             <span>-</span>
             <span>
-              {experience.isWorkingHere
+              {education.isPursuing
                 ? "Present"
-                : `${monthNumberToName[experience.endMonth]}'${experience.endYear}`}
+                : `${monthNumberToName[education.endMonth]}'${education.endYear}`}
             </span>
           </p>
         </div>
 
         <ul className="my-3 list-disc list-inside space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
-          {experience.points.length > 0 ? (
-            experience.points.map((p: any) => <li key={p}>{p}</li>)
+          {education.points.length > 0 ? (
+            education.points.map((p: any) => <li key={p}>{p}</li>)
           ) : (
             <span>No highlights added</span>
           )}

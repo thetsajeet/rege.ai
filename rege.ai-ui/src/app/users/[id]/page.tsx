@@ -9,6 +9,7 @@ import BioData from "./components/Bio/BioData";
 import ListSkill from "./components/Skills/ListSkill";
 import Navbar from "@/components/shared/Navbar";
 import ListProjects from "./components/Projects/ListProjects";
+import ListEducations from "./components/Education/ListEducation";
 
 export default function UserPage() {
   const { id } = useParams();
@@ -37,10 +38,9 @@ export default function UserPage() {
       {/*  <div className="mt-4">
         <ListSkill viewOnly={viewOnly} />
       </div>
-      <div className="mt-4">
-        <Education viewOnly={viewOnly} />
-      </div>
-      <div className="mt-4">
+      */}
+      <ListEducations viewOnly={viewOnly} />
+      {/* <div className="mt-4">
         <Achievement viewOnly={viewOnly} />
       </div>
       <div className="mt-4">

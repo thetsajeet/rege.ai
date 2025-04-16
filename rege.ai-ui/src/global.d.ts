@@ -25,6 +25,6 @@ type EducationItem = {
   startYear: string;
   endMonth?: string;
   endYear?: string;
-  isStudyingHere: boolean;
+  isPursuing: boolean;
   points: string[];
 };
