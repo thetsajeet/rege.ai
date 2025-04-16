@@ -85,7 +85,6 @@ export default function ExperienceForm({
   });
 
   function onSubmit(values: FormValues) {
-    console.log(values);
     addExperience(values);
     onDone();
   }

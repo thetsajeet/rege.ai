@@ -15,44 +15,72 @@ import ExperienceForm from "./ExperienceForm";
 import { ExperienceItem as ExpItem, useResumeStore } from "@/lib/store";
 import { useState } from "react";
 import { produce } from "immer";
+import { DialogClose } from "@radix-ui/react-dialog";
+
+const EditContent = ({ onDone, addExperience, experienceData }: any) => {
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add Experience</DialogTitle>
+        <DialogDescription />
+      </DialogHeader>
+      <ExperienceForm
+        onDone={onDone}
+        addExperience={addExperience}
+        experienceData={experienceData}
+      />
+    </DialogContent>
+  );
+};
+const DeleteContent = ({ onDone, deleteExperience, experienceData }: any) => {
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogDescription />
+        <DialogClose asChild>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              onClick={onDone}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="cursor-pointer"
+              variant="destructive"
+              onClick={() => {
+                deleteExperience(experienceData.id);
+                onDone();
+              }}
+            >
+              Remove
+            </Button>
+          </div>
+        </DialogClose>
+      </DialogHeader>
+    </DialogContent>
+  );
+};
 
 export default function ExperienceItem({
   isEditting,
   experience,
   editDraftExperience,
+  deleteDraftExperience,
 }: {
   isEditting: boolean;
   experience: ExpItem;
   editDraftExperience?: any;
+  deleteDraftExperience?: any;
 }) {
   const [modal, setModal] = useState({ open: false, type: null });
   const editExperience = (data: any) => {
     editDraftExperience(data, experience.id);
   };
-  const EditContent = () => {
-    return (
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Experience</DialogTitle>
-          <DialogDescription />
-        </DialogHeader>
-        <ExperienceForm
-          onDone={() => setModal({ open: false, type: null })}
-          addExperience={editExperience}
-          experienceData={experience}
-        />
-      </DialogContent>
-    );
-  };
-  const DeleteContent = () => {
-    return (
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you sure?</DialogTitle>
-          <DialogDescription>🔴 This action cannot be undone</DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    );
+  const handleDeleteExperience = (id: any) => {
+    deleteDraftExperience(id);
   };
 
   const handleModalChange = (open: boolean) => {
@@ -86,8 +114,20 @@ export default function ExperienceItem({
               {modal.open && (
                 <div className="fixed inset-0 bg-zinc-900/60 backdrop-blur-sm z-40 pointer-events-none" />
               )}
-              {modal.type === "edit" && <EditContent />}
-              {modal.type === "delete" && <DeleteContent />}
+              {modal.type === "edit" && (
+                <EditContent
+                  onDone={() => setModal({ open: false, type: null })}
+                  addExperience={editExperience}
+                  experienceData={experience}
+                />
+              )}
+              {modal.type === "delete" && (
+                <DeleteContent
+                  onDone={() => setModal({ open: false, type: null })}
+                  deleteExperience={handleDeleteExperience}
+                  experienceData={experience}
+                />
+              )}
             </>
           )}
         </Dialog>

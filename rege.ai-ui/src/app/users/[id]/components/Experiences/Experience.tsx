@@ -27,13 +27,11 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
   const [initialExperiencesState, setInitialExperiencesState] = useState(() =>
     produce(experiences, (draft) => {}),
   );
-
   const [expDraft, setExpDraft] = useState(() =>
     produce(initialExperiencesState, (draft) => {}),
   );
 
   const addExperience = (data: any) => {
-    console.log(data);
     setExpDraft(
       produce((draft: any) => {
         draft.push(data);
@@ -42,11 +40,19 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
   };
 
   const editDraftExperience = (data: any, id: string) => {
-    console.log(data, id);
     setExpDraft(
       produce((draft: any) => {
         const idx = draft.findIndex((d: any) => d.id === id);
         if (idx !== -1) draft[idx] = data;
+      }),
+    );
+  };
+
+  const deleteDraftExperience = (id: string) => {
+    setExpDraft(
+      produce((draft: any) => {
+        const idx = draft.findIndex((d: any) => d.id === id);
+        if (idx !== -1) draft.splice(idx, 1);
       }),
     );
   };
@@ -110,6 +116,7 @@ export default function Exp({ viewOnly }: { viewOnly: boolean }) {
               key={key}
               isEditting={editMode}
               editDraftExperience={editDraftExperience}
+              deleteDraftExperience={deleteDraftExperience}
             />
           ))}
         </div>
