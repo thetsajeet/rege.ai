@@ -17,7 +17,41 @@ export const useResumeStore = create<ResumeStore>()(
         dob: "07/12/2000",
         location: "Pune",
       },
-      links: [],
+      links: [
+        {
+          id: "1",
+          label: "LinkedIn",
+          prefix: "linkedin.com/in/",
+          value: "john-doe",
+        },
+        {
+          id: "2",
+          label: "GitHub",
+          prefix: "github.com/",
+          value: "johndoe",
+        },
+        {
+          id: "3",
+          label: "Portfolio",
+          value: "https://johndoe.dev",
+        },
+        {
+          id: "4",
+          label: "Twitter",
+          prefix: "twitter.com/",
+          value: "johndoe",
+        },
+        {
+          id: "5",
+          label: "Email",
+          value: "john@example.com",
+        },
+        {
+          id: "6",
+          label: "Mobile",
+          value: "+919812345678",
+        },
+      ],
       experiences: [],
       projects: [],
       education: [],
