@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Bio, useResumeStore } from "@/lib/store";
+import { useResumeStore } from "@/lib/store";
 import { showCustomToast } from "@/lib/toast";
 
 export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
