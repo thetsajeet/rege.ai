@@ -5,7 +5,6 @@ type ResumeStore = {
   resume: Resume;
   setResume: (data: Partial<Resume>) => void;
   updateField: <T extends keyof Resume>(section: T, value: Resume[T]) => void;
-  updateExperience: (data: ExperienceItem, id: string) => void;
 };
 
 export const useResumeStore = create<ResumeStore>()(
@@ -35,7 +34,48 @@ export const useResumeStore = create<ResumeStore>()(
           month: "1",
         },
       ],
-      certifications: [],
+      certifications: [
+        {
+          id: "1",
+          label: "AWS Certified Solutions Architect",
+          issuedBy: "Amazon Web Services",
+          issuedMonth: "5",
+          issuedYear: "2023",
+          imageUrl: "https://github.com/shadcn.png",
+        },
+        {
+          id: "2",
+          label: "Google Cloud Professional Data Engineer",
+          issuedBy: "Google Cloud",
+          issuedMonth: "11",
+          issuedYear: "2022",
+          imageUrl: "https://github.com/shadcn.png",
+        },
+        {
+          id: "3",
+          label: "Scrum Master Certified (SMC)",
+          issuedBy: "Scrum Alliance",
+          issuedMonth: "8",
+          issuedYear: "2021",
+          imageUrl: "https://github.com/shadcn.png",
+        },
+        {
+          id: "4",
+          label: "Microsoft Certified Fundamentals",
+          issuedBy: "Microsoft",
+          issuedMonth: "2",
+          issuedYear: "2023",
+          imageUrl: "https://github.com/shadcn.png",
+        },
+        {
+          id: "5",
+          label: "Certified Kubernetes Administrator (CKA)",
+          issuedBy: "Cloud Native Computing Foundation",
+          issuedMonth: "4",
+          issuedYear: "2022",
+          imageUrl: "https://github.com/shadcn.png",
+        },
+      ],
     },
     setResume: (data: Partial<Resume>) =>
       set((state) => {
@@ -45,13 +85,5 @@ export const useResumeStore = create<ResumeStore>()(
       set((state) => {
         state.resume[section] = value;
       }),
-    updateExperience: (data: ExperienceItem, id: string) => {
-      set((state) => {
-        state.resume.experiences = state.resume.experiences.map((exp) => {
-          if (exp.id === id) return data;
-          return exp;
-        });
-      });
-    },
   })),
 );

@@ -38,9 +38,7 @@ export default function UserPage() {
       <ListSkill viewOnly={viewOnly} />
       <ListEducations viewOnly={viewOnly} />
       <Achievement viewOnly={viewOnly} />
-      {/* <div className="mt-4">
-        <Certification viewOnly={viewOnly} />
-      </div> */}
+      <Certification viewOnly={viewOnly} />
     </div>
   );
 }

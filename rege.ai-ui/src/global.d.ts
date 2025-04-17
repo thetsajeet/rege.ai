@@ -45,10 +45,11 @@ type Achievement = {
 
 type Certification = {
   id: string;
-  image?: string;
-  title: string;
-  issuedBy: string;
-  issueDate: string;
+  imageUrl?: string;
+  label: string;
+  issuedBy?: string;
+  issuedMonth?: string;
+  issuedYear?: string;
 };
 
 type Bio = {
