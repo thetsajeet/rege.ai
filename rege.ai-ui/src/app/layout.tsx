@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Rege.ai | Build the perfect resume with AI",
@@ -19,6 +20,7 @@ export default function RootLayout({
         >
           {children}
         </div>
+        <Toaster position="top-right" />
       </body>
     </html>
   );

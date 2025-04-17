@@ -1,3 +1,4 @@
+import Orb from "@/components/bits/orb";
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import HeroVideoDialog from "@/components/magicui/hero-video-dialog";
 import { ShineBorder } from "@/components/magicui/shine-border";
@@ -35,11 +36,10 @@ export default function Home() {
       {/* Hero Section */}
       <section className="w-full px-4 py-20">
         <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
-          <div className="flex-1 space-y-6 text-center lg:text-left">
+          <div className="flex-1 space-y-6 text-center lg:text-left relative">
             <Badge variant="secondary" className="p-2 text-md">
               🟡 rege.ai is under construction
             </Badge>
-            {/* <span className="inline-block bg-zinc-800 text-zinc-200 px-3 py-1 rounded-full text-sm font-medium"></span> */}
             <h1 className="text-5xl font-semibold leading-tight text-white">
               Your resume. <br />
               Rebuilt by AI.
@@ -61,7 +61,12 @@ export default function Home() {
           </div>
           <div className="flex-1 hidden lg:flex justify-center">
             <div className="relative w-[360px] h-[280px] bg-zinc-800 border-2 border-zinc-700 flex items-center justify-center text-zinc-500 text-sm">
-              <Image src="/rege.ai-1.png" alt="resume preview" fill={true} />
+              <Image
+                src="/rege.ai-1.png"
+                className="object-cover transition-transform duration-300 hover:scale-110 border-2 border-zinc"
+                alt="resume preview"
+                fill={true}
+              />
             </div>
           </div>
         </div>
