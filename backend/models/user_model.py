@@ -1,12 +1,14 @@
-from typing import Optional
+from typing import List, Optional
 
 import schemas.bio_schema as BioSchema
+import schemas.experience_schema as ExperienceSchema
 import schemas.user_schema as UserSchema
 from beanie import Document, Link
 from beanie.operators import Or
 from fastapi import HTTPException, status
 from models.bio_model import BioModel
-from pydantic import EmailStr
+from models.experience_model import ExperienceModel
+from pydantic import EmailStr, Field
 
 
 # MongoDB User Model
@@ -15,6 +17,7 @@ class UserModel(Document):
     email: EmailStr
     password: str
     bio: Optional[Link[BioModel]] = None
+    experiences: List[Link[ExperienceModel]] = Field(default_factory=list)
 
     class Settings:
         name = "users"
@@ -38,4 +41,10 @@ class UserModel(Document):
             username=self.username,
             email=self.email,
             bio=BioSchema.BioResponse(**self.bio.dict()) if self.bio else None,
+            experiences=[
+                ExperienceSchema.ExperienceResponse(**exp.dict())
+                for exp in self.experiences
+            ]
+            if self.experiences
+            else None,
         )

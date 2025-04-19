@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 import schemas.bio_schema as BioSchema
+import schemas.experience_schema as ExperienceSchema
 from pydantic import BaseModel, EmailStr
 
 
@@ -25,6 +26,7 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
     bio: Optional[BioSchema.BioResponse]
+    experiences: Optional[List[ExperienceSchema.ExperienceResponse]]
 
 
 class UserGetAllResponse(BaseModel):

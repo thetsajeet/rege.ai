@@ -11,8 +11,11 @@ async def register_user(body: UserSchema.UserCreateRequest):
     user_dict = body.model_dump()
     user = UserModel(**user_dict)
     await user.insert()
+
+    # metadata add
     bio = BioModel(user_id=user.id)
     await bio.insert()
+
     user.bio = bio
     await user.save()
     return user.to_response()
