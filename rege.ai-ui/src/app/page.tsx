@@ -16,11 +16,11 @@ export default function Home() {
       <nav className="w-full px-4 py-4 border-b border-zinc-800">
         <div className="max-w-screen-xl mx-auto flex items-center justify-between">
           <div className="text-xl font-medium text-white">Rege.ai</div>
-          <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-md font-semibold leading-6  text-white inline-block">
+          <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-purple-900 rounded-full p-px text-md font-semibold leading-6 text-white inline-block">
             <span className="absolute inset-0 overflow-hidden rounded-full">
-              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(168,85,247,0.6)_0%,rgba(168,85,247,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             </span>
-            <div className="relative flex space-x-2 items-center z-10 rounded-md py-0.5 px-4 ring-1 ring-white/10 bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800 hover:from-purple-700 hover:via-purple-600 hover:to-purple-700 transition-colors duration-300">
+            <div className="relative flex space-x-2 items-center z-10 rounded-md py-0.5 px-4 ring-1 ring-purple-500/20 bg-gradient-to-r from-purple-800 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-600 hover:to-purple-700 transition-colors duration-300">
               <Link className="contents" href="/users/1">
                 <span className="text-white">Get started</span>
                 <span>
@@ -28,7 +28,7 @@ export default function Home() {
                 </span>
               </Link>
             </div>
-            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-purple-400/0 via-purple-400/90 to-purple-400/0 transition-opacity duration-500 group-hover:opacity-40" />
           </button>
         </div>
       </nav>
@@ -40,6 +40,7 @@ export default function Home() {
             <Badge variant="secondary" className="p-2 text-md">
               🟡 rege.ai is under construction
             </Badge>
+            {/* <span className="inline-block bg-zinc-800 text-zinc-200 px-3 py-1 rounded-full text-sm font-medium"></span> */}
             <h1 className="text-5xl font-semibold leading-tight text-white">
               Your resume. <br />
               Rebuilt by AI.
