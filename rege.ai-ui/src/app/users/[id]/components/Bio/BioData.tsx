@@ -116,7 +116,9 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                   src={editMode ? bioDraft.imageUrl : bio.imageUrl}
                   alt="profile-picture"
                 />
-                <AvatarFallback>JD</AvatarFallback>
+                <AvatarFallback>
+                  {bio.fullName.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <div
                 onClick={handleFileChangeClick}

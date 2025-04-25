@@ -39,10 +39,10 @@ export default function BioLink({ viewOnly }: { viewOnly: boolean }) {
   const { resume, updateField } = useResumeStore();
   const { links } = resume;
   const [initialLinks, setInitialLinks] = useState(() =>
-    produce(links, (draft) => {}),
+    produce(links, (draft) => { }),
   );
   const [draftlinks, setDraftlinks] = useState(() =>
-    produce(initialLinks, (draft) => {}),
+    produce(initialLinks, (draft) => { }),
   );
 
   // TODO: Extend support for add and delete links
@@ -79,7 +79,7 @@ export default function BioLink({ viewOnly }: { viewOnly: boolean }) {
   };
 
   const cancelDraftlinks = () => {
-    setDraftlinks(produce(initialLinks, (draft) => {}));
+    setDraftlinks(produce(initialLinks, (draft) => { }));
     toggleEditMode(false);
     showCustomToast("info", "Link changes cancelled");
   };
