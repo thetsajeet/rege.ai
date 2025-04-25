@@ -20,24 +20,22 @@ export default function UserPage() {
 
   return (
     <div className="flex flex-col pb-20">
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
       {/* biodata */}
-      <div className="mt-4">
-        <BioData viewOnly={viewOnly} />
-      </div>
+      <BioData viewOnly={viewOnly} />
       {/* links */}
-      <div className="mt-4">
-        <BioLink viewOnly={viewOnly} />
-      </div>
+      <BioLink viewOnly={viewOnly} />
       {/* work experience */}
       <Exp viewOnly={viewOnly} />
       {/* projects */}
       <ListProjects viewOnly={viewOnly} />
+      {/* list skils */}
       <ListSkill viewOnly={viewOnly} />
+      {/* education */}
       <ListEducations viewOnly={viewOnly} />
+      {/* achievement*/}
       <Achievement viewOnly={viewOnly} />
+      {/* certifications*/}
       <Certification viewOnly={viewOnly} />
     </div>
   );

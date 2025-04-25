@@ -14,7 +14,7 @@ export const useResumeStore = create<ResumeStore>()(
         userId: "1",
         fullName: "Ajeet T S",
         profession: "SDE 2",
-        dob: "07/12/2000",
+        dob: new Date("December 07, 2000"),
         location: "Pune",
       },
       links: [

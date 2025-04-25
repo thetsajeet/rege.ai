@@ -39,10 +39,10 @@ export default function BioLink({ viewOnly }: { viewOnly: boolean }) {
   const { resume, updateField } = useResumeStore();
   const { links } = resume;
   const [initialLinks, setInitialLinks] = useState(() =>
-    produce(links, (draft) => { }),
+    produce(links, (draft) => {}),
   );
   const [draftlinks, setDraftlinks] = useState(() =>
-    produce(initialLinks, (draft) => { }),
+    produce(initialLinks, (draft) => {}),
   );
 
   // TODO: Extend support for add and delete links
@@ -79,63 +79,65 @@ export default function BioLink({ viewOnly }: { viewOnly: boolean }) {
   };
 
   const cancelDraftlinks = () => {
-    setDraftlinks(produce(initialLinks, (draft) => { }));
+    setDraftlinks(produce(initialLinks, (draft) => {}));
     toggleEditMode(false);
     showCustomToast("info", "Link changes cancelled");
   };
 
   return (
-    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-      <div className="flex justify-between">
-        <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-          Links
-        </h2>
-        {viewOnly &&
-          (!editMode ? (
-            <Button
-              variant="outline"
-              size="icon"
-              className="cursor-pointer rounded-full"
-              onClick={() => toggleEditMode(true)}
-            >
-              <Pencil className="text-purple-600" />
-            </Button>
-          ) : (
-            <span className="flex justify-end gap-2">
+    <div className="mt-4">
+      <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
+            Links
+          </h2>
+          {viewOnly &&
+            (!editMode ? (
               <Button
                 variant="outline"
                 size="icon"
                 className="cursor-pointer rounded-full"
-                onClick={saveDraftlinks}
+                onClick={() => toggleEditMode(true)}
               >
-                <Check className="text-green-500" />
+                <Pencil className="text-purple-600" />
               </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="cursor-pointer rounded-full"
-                onClick={cancelDraftlinks}
-              >
-                <X className="text-red-600" />
-              </Button>
-            </span>
+            ) : (
+              <span className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="cursor-pointer rounded-full"
+                  onClick={saveDraftlinks}
+                >
+                  <Check className="text-green-500" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="cursor-pointer rounded-full"
+                  onClick={cancelDraftlinks}
+                >
+                  <X className="text-red-600" />
+                </Button>
+              </span>
+            ))}
+        </div>
+
+        <hr className="border-zinc-400 dark:border-zinc-700" />
+
+        <div className="grid md:grid-cols-3 gap-x-2 gap-y-4">
+          {draftlinks.map((item) => (
+            <BioLinkItem
+              key={item.id}
+              bioLink={item}
+              editMode={editMode}
+              icon={linkIconsMap[item.label]}
+              placeholder={linkPlaceholdersMap[item.label]}
+              updateLinkItem={editDraftLinks}
+            />
           ))}
-      </div>
-
-      <hr className="border-zinc-400 dark:border-zinc-700" />
-
-      <div className="grid md:grid-cols-3 gap-x-2 gap-y-4">
-        {draftlinks.map((item) => (
-          <BioLinkItem
-            key={item.id}
-            bioLink={item}
-            editMode={editMode}
-            icon={linkIconsMap[item.label]}
-            placeholder={linkPlaceholdersMap[item.label]}
-            updateLinkItem={editDraftLinks}
-          />
-        ))}
-        {draftlinks.length === 0 && <div>No links added.</div>}
+          {draftlinks.length === 0 && <div>No links added.</div>}
+        </div>
       </div>
     </div>
   );

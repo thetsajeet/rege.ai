@@ -56,7 +56,7 @@ type Bio = {
   userId: string;
   fullName: string;
   profession: string;
-  dob: string;
+  dob: Date;
   location: string;
 };
 
