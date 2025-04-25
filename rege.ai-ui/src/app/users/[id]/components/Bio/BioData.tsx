@@ -3,7 +3,7 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { CalendarIcon, Check, Pencil, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useResumeStore } from "@/lib/store";
@@ -22,7 +22,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
   const { bio } = resume;
   const [initialBioState, _] = useState<Bio>(bio);
   const [bioDraft, setBioDraft] = useState<Bio>(initialBioState);
-  const [currDate, setCurrDate] = useState<Date>(new Date(Date.now()));
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   function saveBioState() {
     showCustomToast("success", "Bio updated!");
@@ -35,6 +35,21 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
     showCustomToast("info", "Bio changes are cancelled");
     toggleEditMode(false);
   }
+
+  const handleFileChangeClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handeFileChange = (event: any) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBioDraft((p) => ({ ...p, imageUrl: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="mt-4">
@@ -86,12 +101,27 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
               )}
             >
               <Avatar className="size-40">
-                <AvatarImage src="/resume-profile-pic.jpg" />
+                <AvatarImage
+                  src={editMode ? bioDraft.imageUrl : bio.imageUrl}
+                  alt="profile-picture"
+                />
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+              <div
+                onClick={handleFileChangeClick}
+                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+              >
                 {editMode && (
-                  <Pencil className="w-6 h-6 text-black brightness-105" />
+                  <>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      onChange={handeFileChange}
+                      className="hidden"
+                    />
+                    <Pencil className="w-6 h-6 text-black brightness-105" />
+                  </>
                 )}
               </div>
             </div>

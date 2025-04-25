@@ -58,6 +58,7 @@ type Bio = {
   profession: string;
   dob: Date;
   location: string;
+  imageUrl?: string;
 };
 
 type Skill = {
