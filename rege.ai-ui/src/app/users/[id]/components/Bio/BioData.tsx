@@ -41,13 +41,24 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
   };
 
   const handeFileChange = (event: any) => {
-    const file = event.target.files?.[0];
-    if (file) {
+    try {
+      const file = event.target.files?.[0];
+      const allowedFileTypes = ["jpg", "jpeg", "png"];
+      const fileTypeSet = new Set(allowedFileTypes);
+      if (!file) throw new Error("No file found");
+
+      if (!fileTypeSet.has(file.type.split("/")[1]))
+        throw new Error(
+          `Only filetypes are ${allowedFileTypes.join(", ")} are accepted.`,
+        );
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setBioDraft((p) => ({ ...p, imageUrl: reader.result as string }));
       };
       reader.readAsDataURL(file);
+    } catch (error) {
+      showCustomToast("failure", error.message);
     }
   };
 
@@ -109,7 +120,10 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
               </Avatar>
               <div
                 onClick={handleFileChangeClick}
-                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                className={cn(
+                  "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition",
+                  editMode && "cursor-pointer",
+                )}
               >
                 {editMode && (
                   <>
@@ -120,7 +134,9 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                       onChange={handeFileChange}
                       className="hidden"
                     />
-                    <Pencil className="w-6 h-6 text-black brightness-105" />
+                    <Button className="rounded-full cursor-pointer">
+                      <Pencil className="w-6 h-6 text-zinc-700 brightness-105" />
+                    </Button>
                   </>
                 )}
               </div>
