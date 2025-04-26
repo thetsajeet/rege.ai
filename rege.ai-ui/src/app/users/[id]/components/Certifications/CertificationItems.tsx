@@ -12,6 +12,7 @@ import {
 import { Minus, MinusCircle, Pencil, Plus, Trash } from "lucide-react";
 import { useState } from "react";
 import CertfificationForm from "./CertificationForm";
+import Image from "next/image";
 
 // export default function CertificationItem({ cert, editMode }: any) {
 //   return (
@@ -175,16 +176,16 @@ export default function CertificationItem({
             />
           )}
         </Dialog>
-
-        <img
-          src={
-            certification.imageUrl
-              ? certification.imageUrl
-              : `https://placehold.co/600x400?text=Certification`
-          }
-          alt={certification.label}
-          className="w-20 h-16 object-cover rounded-sm border border-zinc-300 dark:border-zinc-700"
-        />
+        {certification.imageUrl && (
+          <div className="relative h-[70px] w-[100px]">
+            <Image
+              src={certification.imageUrl}
+              alt={certification.label}
+              className="object-cover rounded-sm border border-zinc-300 dark:border-zinc-700"
+              fill
+            />
+          </div>
+        )}
         <div className="flex-1 space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
           <div className="font-medium">{certification.label}</div>
           <div className="text-zinc-500 dark:text-zinc-400">

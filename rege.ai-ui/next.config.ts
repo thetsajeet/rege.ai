@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["api.microlink.io", "placehold.co"], // TODO: migrate from domains
+    domains: ["github.com", "api.microlink.io", "placehold.co"], // TODO: migrate from domains
   },
 };
 
