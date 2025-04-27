@@ -108,7 +108,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
               className={cn(
                 "rounded-full p-1 transition-all ring-2 ring-zinc-600",
                 editMode &&
-                "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
+                  "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
               )}
             >
               <Avatar className="size-40">
@@ -168,81 +168,133 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
                 <span className="truncate">{bio.fullName}</span>
               )}
             </div>
-            <div className="flex items-center gap-2 w-full">
-              <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
-                Profession:
-              </span>
-              {editMode ? (
-                <Input
-                  type="text"
-                  placeholder={"Enter your profession"}
-                  defaultValue={bio.profession}
-                  className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
-                  onChange={(e: any) =>
-                    setBioDraft((prev: Bio) => ({
-                      ...prev,
-                      profession: e.target.value,
-                    }))
-                  }
-                />
-              ) : (
-                <span className="truncate">{bio.profession}</span>
-              )}
-            </div>
-            <div className="flex items-center gap-2 w-full">
-              <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
-                Location:
-              </span>
-              {editMode ? (
-                <Input
-                  type="text"
-                  placeholder={"Enter your location"}
-                  defaultValue={bio.location}
-                  className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
-                  onChange={(e: any) =>
-                    setBioDraft((prev: Bio) => ({
-                      ...prev,
-                      location: e.target.value,
-                    }))
-                  }
-                />
-              ) : (
-                <span className="truncate">{bio.location}</span>
-              )}
-            </div>
-            <div className="flex items-center gap-2 w-full">
-              <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
-                Date of birth:
-              </span>
-              {editMode ? (
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0",
-                      )}
-                    >
-                      {bioDraft.dob ? (
-                        format(bioDraft.dob, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={bioDraft.dob}
-                      onSelect={(x) => setBioDraft((p) => ({ ...p, dob: x }))}
-                    />
-                  </PopoverContent>
-                </Popover>
-              ) : (
-                <span className="truncate">{format(bio.dob, "PPP")}</span>
-              )}
-            </div>
+            {(editMode || bio.profession) && (
+              <div className="flex items-center gap-2 w-full">
+                <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
+                  Profession:
+                </span>
+                {editMode ? (
+                  <Input
+                    type="text"
+                    placeholder={"Enter your profession"}
+                    defaultValue={bio.profession}
+                    className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                    onChange={(e: any) =>
+                      setBioDraft((prev: Bio) => ({
+                        ...prev,
+                        profession: e.target.value,
+                      }))
+                    }
+                  />
+                ) : (
+                  <span className="truncate">{bio.profession}</span>
+                )}
+              </div>
+            )}
+            {editMode && bio.location && (
+              <div className="flex items-center gap-2 w-full">
+                <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
+                  Location:
+                </span>
+                {editMode ? (
+                  <Input
+                    type="text"
+                    placeholder={"Enter your location"}
+                    defaultValue={bio.location}
+                    className="text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                    onChange={(e: any) =>
+                      setBioDraft((prev: Bio) => ({
+                        ...prev,
+                        location: e.target.value,
+                      }))
+                    }
+                  />
+                ) : (
+                  <span className="truncate">{bio.location}</span>
+                )}
+              </div>
+            )}
+            {(editMode || bio.email) && (
+              <div className="flex items-center gap-2 w-full">
+                <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
+                  Primary Email:
+                </span>
+                {editMode ? (
+                  <Input
+                    type="email"
+                    placeholder={"Enter your mail"}
+                    defaultValue={bio.email}
+                    className="transition-all text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                    onChange={(e: any) =>
+                      setBioDraft((prev: Bio) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
+                  />
+                ) : (
+                  <span className="truncate">{bio.email}</span>
+                )}
+              </div>
+            )}
+            {(editMode || bio.phone) && (
+              <div className="flex items-center gap-2 w-full">
+                <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
+                  Primary Mobile:
+                </span>
+                {editMode ? (
+                  <Input
+                    type="tel"
+                    placeholder={"Enter your phone with +country code"}
+                    defaultValue={bio.phone}
+                    className="transition-all text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0"
+                    onChange={(e: any) =>
+                      setBioDraft((prev: Bio) => ({
+                        ...prev,
+                        phone: e.target.value,
+                      }))
+                    }
+                  />
+                ) : (
+                  <span className="truncate">{bio.phone}</span>
+                )}
+              </div>
+            )}
+            {(editMode || bio.dob) && (
+              <div className="flex items-center gap-2 w-full">
+                <span className="shrink-0 font-medium text-zinc-800 dark:text-zinc-100">
+                  Date of birth:
+                </span>
+                {editMode ? (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "text-sm h-8 border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 flex-1 min-w-0",
+                        )}
+                      >
+                        {bioDraft.dob ? (
+                          format(bioDraft.dob, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={bioDraft.dob}
+                        onSelect={(x) => setBioDraft((p) => ({ ...p, dob: x }))}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                ) : (
+                  <span className="truncate">{format(bio.dob, "PPP")}</span>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { notFound, useParams } from "next/navigation";
 import Exp from "./components/Experiences/Experience";
 import Certification from "./components/Certifications/Certification";
 import Achievement from "./components/Achievements/Achievement";
-import BioLink from "./components/Bio/BioLink";
+import BioLinkCard from "./components/Bio/BioLinkCard";
 import BioData from "./components/Bio/BioData";
 import ListSkill from "./components/Skills/ListSkill";
 import Navbar from "@/components/shared/Navbar";
@@ -24,7 +24,7 @@ export default function UserPage() {
       {/* biodata */}
       <BioData viewOnly={viewOnly} />
       {/* links */}
-      <BioLink viewOnly={viewOnly} />
+      <BioLinkCard viewOnly={viewOnly} />
       {/* work experience */}
       <Exp viewOnly={viewOnly} />
       {/* projects */}
