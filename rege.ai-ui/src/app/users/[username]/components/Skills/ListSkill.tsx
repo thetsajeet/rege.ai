@@ -16,11 +16,16 @@ import { useResumeStore } from "@/lib/store";
 import { produce } from "immer";
 import { showCustomToast } from "@/lib/toast";
 
-export default function ListSkill({ viewOnly }: { viewOnly: boolean }) {
+export default function ListSkill({
+  canEdit,
+  skills,
+}: {
+  canEdit: boolean;
+  skills: Skill[];
+}) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [editMode, toggleEditMode] = useState(false);
   const { resume, updateField } = useResumeStore();
-  const { skills } = resume;
 
   const [initialSkills, setInitialSkills] = useState(() =>
     produce(skills, (draft) => { }),
@@ -66,7 +71,7 @@ export default function ListSkill({ viewOnly }: { viewOnly: boolean }) {
           <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
             Skills
           </h2>
-          {viewOnly &&
+          {canEdit &&
             (!editMode ? (
               <Button
                 variant="outline"

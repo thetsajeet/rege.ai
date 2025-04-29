@@ -29,11 +29,12 @@ type EducationItem = {
   points: string[];
 };
 
-type Link = {
+type BioLink = {
   id: string;
   label: string;
   prefix?: string;
   value: string;
+  custom?: boolean;
 };
 
 type Achievement = {
@@ -54,10 +55,14 @@ type Certification = {
 
 type Bio = {
   userId: string;
+  email: string;
+  username: string;
   fullName: string;
-  profession: string;
-  dob: string;
-  location: string;
+  profession?: string;
+  dob?: Date;
+  location?: string;
+  imageUrl?: string;
+  phone?: string;
 };
 
 type Skill = {
@@ -67,7 +72,7 @@ type Skill = {
 
 type Resume = {
   bio: Bio;
-  links: Link[];
+  links: BioLink[];
   experiences: ExperienceItem[];
   projects: ProjectItem[];
   education: EducationItem[];

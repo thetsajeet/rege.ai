@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Check, Cross, Pencil, X } from "lucide-react";
-import ProjectItem from "./ProjectItem";
+import EducationItem from "./EducationItem";
 import { useEffect, useState } from "react";
 import CustomDialog from "@/components/shared/EditDialog";
 import {
@@ -15,33 +15,38 @@ import {
   DialogContent,
   DialogFooter,
 } from "@/components/ui/dialog";
-import ProjectForm from "./ProjectForm";
+import EducationForm from "./EducationForm";
 import { useResumeStore } from "@/lib/store";
 import { produce } from "immer";
 import { showCustomToast } from "@/lib/toast";
 
-export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
+export default function ListEducations({
+  canEdit,
+  education,
+}: {
+  canEdit: boolean;
+  education: EducationItem[];
+}) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { resume, updateField } = useResumeStore();
-  const { projects } = resume;
-  const [initialProjects, setInitialProjects] = useState(() =>
-    produce(projects, (draft) => {}),
+  const [initialEducations, setInitialEducations] = useState(() =>
+    produce(education, (draft) => { }),
   );
-  const [draftProjects, setDraftProjects] = useState(() =>
-    produce(initialProjects, (draft) => {}),
+  const [draftEducations, setDraftEducations] = useState(() =>
+    produce(initialEducations, (draft) => { }),
   );
 
-  const addDraftProject = (data: any) => {
-    setDraftProjects(
+  const addDraftEducation = (data: any) => {
+    setDraftEducations(
       produce((draft: any) => {
         draft.push(data);
       }),
     );
   };
 
-  const editDraftProject = (data: any, id: string) => {
-    setDraftProjects(
+  const editDraftEducation = (data: any, id: string) => {
+    setDraftEducations(
       produce((draft: any) => {
         const idx = draft.findIndex((d: any) => d.id === id);
         if (idx !== -1) draft[idx] = data;
@@ -49,8 +54,8 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
     );
   };
 
-  const deleteDraftProject = (id: string) => {
-    setDraftProjects(
+  const deleteDraftEducation = (id: string) => {
+    setDraftEducations(
       produce((draft: any) => {
         const idx = draft.findIndex((d: any) => d.id === id);
         if (idx !== -1) draft.splice(idx, 1);
@@ -58,17 +63,17 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
     );
   };
 
-  const saveDraftProjects = () => {
-    updateField("projects", draftProjects);
-    setInitialProjects(draftProjects);
+  const saveDraftEducations = () => {
+    updateField("education", draftEducations);
+    setInitialEducations(draftEducations);
     toggleEditMode(false);
-    showCustomToast("success", "project updated");
+    showCustomToast("success", "Education updated");
   };
 
-  const cancelDraftProjects = () => {
-    setDraftProjects(produce(initialProjects, (draft) => {}));
+  const cancelDraftEducations = () => {
+    setDraftEducations(produce(initialEducations, (draft) => { }));
     toggleEditMode(false);
-    showCustomToast("info", "project changes cancelled");
+    showCustomToast("info", "Education changes cancelled");
   };
 
   return (
@@ -76,9 +81,9 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
       <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Projects
+            Education
           </h2>
-          {viewOnly &&
+          {canEdit &&
             (!editMode ? (
               <Button
                 variant="outline"
@@ -94,7 +99,7 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={saveDraftProjects}
+                  onClick={saveDraftEducations}
                 >
                   <Check className="text-green-500" />
                 </Button>
@@ -102,7 +107,7 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={cancelDraftProjects}
+                  onClick={cancelDraftEducations}
                 >
                   <X className="text-red-600" />
                 </Button>
@@ -113,18 +118,18 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
         <hr className="border-zinc-400 dark:border-zinc-700" />
 
         <div className="space-y-6">
-          {draftProjects.length > 0 ? (
-            draftProjects.map((item: any, key: any) => (
-              <ProjectItem
-                project={item}
+          {draftEducations.length > 0 ? (
+            draftEducations.map((item: any, key: any) => (
+              <EducationItem
+                education={item}
                 key={key}
                 isEditting={editMode}
-                editDraftProject={editDraftProject}
-                deleteDraftProject={deleteDraftProject}
+                editDraftEducation={editDraftEducation}
+                deleteDraftEducation={deleteDraftEducation}
               />
             ))
           ) : (
-            <div>No project added.</div>
+            <div>No education added.</div>
           )}
         </div>
 
@@ -132,7 +137,7 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
           <Dialog open={modalOpen} onOpenChange={setModalOpen} modal={false}>
             <DialogTrigger asChild>
               <Button className="w-full mt-4 text-white bg-purple-600 hover:bg-purple-700 transition cursor-pointer">
-                + Add New project
+                + Add New Education
               </Button>
             </DialogTrigger>
             {modalOpen && (
@@ -140,12 +145,12 @@ export default function ListProjects({ viewOnly }: { viewOnly: boolean }) {
             )}
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add project</DialogTitle>
+                <DialogTitle>Add Education</DialogTitle>
                 <DialogDescription />
               </DialogHeader>
-              <ProjectForm
+              <EducationForm
                 onDone={() => setModalOpen(false)}
-                updateProject={addDraftProject}
+                updateEducation={addDraftEducation}
               />
             </DialogContent>
           </Dialog>

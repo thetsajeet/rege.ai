@@ -22,6 +22,11 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { Delete, Minus, MinusCircle, UploadCloud } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { showCustomToast } from "@/lib/toast";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   id: z.string().min(1),
@@ -61,6 +66,9 @@ export default function CertfificationForm({
   onDone?: any;
   certificationData?: Certification;
 }) {
+  const localUrlRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,11 +82,43 @@ export default function CertfificationForm({
       imageUrl: certificationData?.imageUrl || "",
     },
   });
-
   function onSubmit(values: FormValues) {
     console.log(values);
     updateCertfification(values);
     onDone();
+  }
+  const watchedImageUrl = form.watch("imageUrl");
+
+  const handleFileChange = (event: any) => {
+    try {
+      const file = event.target.files?.[0];
+      const allowedFileTypes = ["jpg", "jpeg", "png"];
+      const fileTypeSet = new Set(allowedFileTypes);
+      if (!file) throw new Error("No file found");
+
+      if (!fileTypeSet.has(file.type.split("/")[1]))
+        throw new Error(
+          `Only filetypes are ${allowedFileTypes.join(", ")} are accepted.`,
+        );
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        localUrlRef.current = URL.createObjectURL(file);
+        form.setValue("imageUrl", localUrlRef.current);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      showCustomToast("failure", error.message);
+    }
+  };
+
+  const handleBoxClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  function removeImageUrl() {
+    form.setValue("imageUrl", "");
+    localUrlRef.current = null;
   }
 
   return (
@@ -89,9 +129,12 @@ export default function CertfificationForm({
           name="label"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>label</FormLabel>
+              <FormLabel>Certification Title</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your certification name" {...field} />
+                <Input
+                  placeholder="Enter your certification title"
+                  {...field}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -102,7 +145,7 @@ export default function CertfificationForm({
           name="issuedBy"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>issuedBy</FormLabel>
+              <FormLabel>Issued By</FormLabel>
               <FormControl>
                 <Input placeholder="Enter issued by authority" {...field} />
               </FormControl>
@@ -110,7 +153,7 @@ export default function CertfificationForm({
           )}
         />
 
-        <div>Issued Date</div>
+        <FormLabel>Issued Date</FormLabel>
         <div className="flex justify-issued gap-2">
           <FormField
             control={form.control}
@@ -164,7 +207,58 @@ export default function CertfificationForm({
           />
         </div>
 
-        <div>image url input</div>
+        <div>Certificate Image</div>
+
+        <div>
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex gap-2">
+                    <div
+                      onClick={handleBoxClick}
+                      className={cn(
+                        "flex flex-col items-center justify-center w-full h-40 cursor-pointer rounded-lg border-2 border-dashed border-muted hover:border-primary transition-colors",
+                        watchedImageUrl?.length > 0 && "w-1/2",
+                      )}
+                    >
+                      <UploadCloud className="w-8 h-8 text-muted-foreground mb-2" />
+                      <p className="text-sm text-muted-foreground font-medium">
+                        Add a new file
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        PNG, JPG, PDF, etc.
+                      </p>
+                      <Input
+                        ref={fileInputRef}
+                        type="file"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </div>
+                    {watchedImageUrl && watchedImageUrl.length > 0 && (
+                      <div className="relative w-1/2">
+                        <MinusCircle
+                          onClick={removeImageUrl}
+                          className="absolute -top-1 -right-1 z-10 text-red-500 cursor-pointer"
+                        />
+                        <Image
+                          src={watchedImageUrl}
+                          alt="preview url"
+                          className="object-cover rounded-sm border border-zinc-300 dark:border-zinc-700"
+                          fill
+                        />
+                      </div>
+                    )}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <div className="flex justify-end gap-2">
           <Button
