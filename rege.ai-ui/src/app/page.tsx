@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { ArrowDown, ArrowRight, Mouse } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import BentoFeatures from "./BentoFeatures";
 
 export default function Home() {
   return (
@@ -95,37 +96,12 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
-        <section className="w-full px-4 py-20 mt-24 border-b border-zinc-800">
-          <div className="max-w-screen-xl mx-auto text-center space-y-12">
-            <h2 className="text-3xl font-semibold">Features</h2>
-            <div className="grid md:grid-cols-3 gap-10 text-left">
-              {[
-                {
-                  title: "Store Once",
-                  desc: "Keep all your work experience, projects, skills and achievements in one place.",
-                },
-                {
-                  title: "Generate On Demand",
-                  desc: "Upload a job description and get a fresh resume tailored to it — instantly.",
-                },
-                {
-                  title: "ATS Friendly",
-                  desc: "Built to be parsed cleanly by Applicant Tracking Systems.",
-                },
-              ].map((feature, idx) => (
-                <div key={idx} className="space-y-2">
-                  <h3 className="text-xl font-semibold text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="text-zinc-400">{feature.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+        <section className="mt-28">
+          <BentoFeatures />
         </section>
 
         {/* Call to Action Section */}
-        <section className="w-full h-[500px] relative flex items-center px-4 border-b border-zinc-800">
+        <section className="w-full mt-28 h-[500px] relative flex items-center px-4 border-b border-zinc-800">
           <DotPattern
             className={cn(
               "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",

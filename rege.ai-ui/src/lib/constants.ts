@@ -1,9 +1,9 @@
 export const DEFAULT_RESUME = {
   bio: {
-    userId: "1",
-    fullName: "Ajeet T S",
-    username: "theaj7",
-    email: "ajeet.tumuluru@gmail.com",
+    userId: "",
+    fullName: "",
+    username: "",
+    email: "",
   },
   links: [
     {
@@ -37,59 +37,7 @@ export const DEFAULT_RESUME = {
   experiences: [],
   projects: [],
   education: [],
-  skills: [
-    { id: "1", label: "Angular" },
-    { id: "2", label: "React" },
-    { id: "3", label: "Node" },
-  ],
-  achievements: [
-    {
-      id: "1",
-      text: 'won "Best Innovation Award"',
-      year: "2024",
-      month: "1",
-    },
-  ],
-  certifications: [
-    {
-      id: "1",
-      label: "AWS Certified Solutions Architect",
-      issuedBy: "Amazon Web Services",
-      issuedMonth: "5",
-      issuedYear: "2023",
-      imageUrl: "https://github.com/shadcn.png",
-    },
-    {
-      id: "2",
-      label: "Google Cloud Professional Data Engineer",
-      issuedBy: "Google Cloud",
-      issuedMonth: "11",
-      issuedYear: "2022",
-      imageUrl: "https://github.com/shadcn.png",
-    },
-    {
-      id: "3",
-      label: "Scrum Master Certified (SMC)",
-      issuedBy: "Scrum Alliance",
-      issuedMonth: "8",
-      issuedYear: "2021",
-      imageUrl: "https://github.com/shadcn.png",
-    },
-    {
-      id: "4",
-      label: "Microsoft Certified Fundamentals",
-      issuedBy: "Microsoft",
-      issuedMonth: "2",
-      issuedYear: "2023",
-      imageUrl: "https://github.com/shadcn.png",
-    },
-    {
-      id: "5",
-      label: "Certified Kubernetes Administrator (CKA)",
-      issuedBy: "Cloud Native Computing Foundation",
-      issuedMonth: "4",
-      issuedYear: "2022",
-      imageUrl: "https://github.com/shadcn.png",
-    },
-  ],
+  skills: [],
+  achievements: [],
+  certifications: [],
 };

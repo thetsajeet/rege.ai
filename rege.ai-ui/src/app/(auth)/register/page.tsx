@@ -50,12 +50,20 @@ export default function RegisterForm() {
     try {
       console.log(values);
       // TODO: Fetch Resume of user
+      const res = DEFAULT_RESUME;
+      res.bio.username = values.username;
+      res.bio.email = values.password;
+      res.bio.userId =
+        Date.now().toString() + (Math.random() * 1000).toString();
+
       logIn({
-        username: DEFAULT_RESUME.bio.username,
-        email: DEFAULT_RESUME.bio.email,
-        userId: DEFAULT_RESUME.bio.userId,
+        username: values.username,
+        email: values.password,
+        userId: Date.now().toString() + (Math.random() * 1000).toString(),
       });
-      initResume(DEFAULT_RESUME);
+
+      initResume(res);
+      localStorage.setItem(res.bio.username, JSON.stringify(res));
       showCustomToast("success", "Welcome to rege.ai");
       router.push(`/users/${DEFAULT_RESUME.bio.username}`);
     } catch (error) {
