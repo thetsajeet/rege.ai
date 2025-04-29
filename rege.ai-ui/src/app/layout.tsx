@@ -15,11 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden">
       <body className="dark">
-        <div
-          className={`container max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8 h-full flex flex-col antialiased`}
-        >
-          {children}
-        </div>
+        {children}
         <Toaster position="top-right" />
       </body>
     </html>

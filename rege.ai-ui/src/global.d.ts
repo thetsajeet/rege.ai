@@ -55,12 +55,13 @@ type Certification = {
 
 type Bio = {
   userId: string;
+  email: string;
+  username: string;
   fullName: string;
   profession?: string;
   dob?: Date;
   location?: string;
   imageUrl?: string;
-  email?: string;
   phone?: string;
 };
 

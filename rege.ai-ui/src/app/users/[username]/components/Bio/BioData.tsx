@@ -16,10 +16,15 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 
-export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
+export default function BioCard({
+  canEdit,
+  bio,
+}: {
+  canEdit: boolean;
+  bio: Bio;
+}) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
-  const { resume, updateField } = useResumeStore();
-  const { bio } = resume;
+  const updateField = useResumeStore((state) => state.updateField);
   const [initialBioState, _] = useState<Bio>(bio);
   const [bioDraft, setBioDraft] = useState<Bio>(initialBioState);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -69,7 +74,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
           <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
             Bio
           </h2>
-          {viewOnly &&
+          {canEdit &&
             (!editMode ? (
               <Button
                 variant="outline"
@@ -108,7 +113,7 @@ export default function BioCard({ viewOnly }: { viewOnly: boolean }) {
               className={cn(
                 "rounded-full p-1 transition-all ring-2 ring-zinc-600",
                 editMode &&
-                  "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
+                "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
               )}
             >
               <Avatar className="size-40">

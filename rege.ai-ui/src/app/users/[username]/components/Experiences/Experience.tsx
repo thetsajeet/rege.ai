@@ -20,16 +20,21 @@ import { useResumeStore } from "@/lib/store";
 import { produce } from "immer";
 import { showCustomToast } from "@/lib/toast";
 
-export default function ListExperiences({ viewOnly }: { viewOnly: boolean }) {
+export default function ListExperiences({
+  canEdit,
+  experiences,
+}: {
+  canEdit: boolean;
+  experiences: ExperienceItem[];
+}) {
   const [editMode, toggleEditMode] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { resume, updateField } = useResumeStore();
-  const { experiences } = resume;
   const [initialExperiences, setInitialExperiences] = useState(() =>
-    produce(experiences, (draft) => {}),
+    produce(experiences, (draft) => { }),
   );
   const [draftExperiences, setDraftExperiences] = useState(() =>
-    produce(initialExperiences, (draft) => {}),
+    produce(initialExperiences, (draft) => { }),
   );
 
   const addDraftExperience = (data: any) => {
@@ -66,7 +71,7 @@ export default function ListExperiences({ viewOnly }: { viewOnly: boolean }) {
   };
 
   const cancelDraftExperiences = () => {
-    setDraftExperiences(produce(initialExperiences, (draft) => {}));
+    setDraftExperiences(produce(initialExperiences, (draft) => { }));
     toggleEditMode(false);
     showCustomToast("info", "Experience changes cancelled");
   };
@@ -78,7 +83,7 @@ export default function ListExperiences({ viewOnly }: { viewOnly: boolean }) {
           <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
             Experience
           </h2>
-          {viewOnly &&
+          {canEdit &&
             (!editMode ? (
               <Button
                 variant="outline"

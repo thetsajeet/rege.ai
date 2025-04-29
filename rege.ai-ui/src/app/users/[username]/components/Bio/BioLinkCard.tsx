@@ -34,10 +34,15 @@ const linkIconsMap: Record<string, JSX.Element> = {
     Custom: <Globe className="w-4 h-4" />,
 };
 
-export default function BioLinkCard({ viewOnly }: { viewOnly: boolean }) {
+export default function BioLinkCard({
+    canEdit,
+    links,
+}: {
+    canEdit: boolean;
+    links: BioLink[];
+}) {
     const [editMode, toggleEditMode] = useState<boolean>(false);
     const { resume, updateField } = useResumeStore();
-    const { links } = resume;
     const [initialLinks, setInitialLinks] = useState(() =>
         produce(links, (draft) => { }),
     );
@@ -103,7 +108,7 @@ export default function BioLinkCard({ viewOnly }: { viewOnly: boolean }) {
                 <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
                     Links
                 </h2>
-                {viewOnly &&
+                {canEdit &&
                     (!editMode ? (
                         <Button
                             variant="outline"

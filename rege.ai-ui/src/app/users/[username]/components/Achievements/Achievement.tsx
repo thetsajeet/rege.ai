@@ -32,10 +32,15 @@ const monthNumberToName: Record<string, string> = {
   "11": "Dec",
 };
 
-export default function Achievement({ viewOnly }: { viewOnly: boolean }) {
+export default function Achievement({
+  canEdit,
+  achievements,
+}: {
+  canEdit: boolean;
+  achievements: Achievement[];
+}) {
   const [editMode, toggleEditMode] = useState(false);
   const { resume, updateField } = useResumeStore();
-  const { achievements } = resume;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [initialAchievements, setInitialAchievements] = useState(() =>
     produce(achievements, (draft) => { }),
@@ -90,7 +95,7 @@ export default function Achievement({ viewOnly }: { viewOnly: boolean }) {
           <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
             Achievements
           </h2>
-          {viewOnly &&
+          {canEdit &&
             (!editMode ? (
               <Button
                 variant="outline"

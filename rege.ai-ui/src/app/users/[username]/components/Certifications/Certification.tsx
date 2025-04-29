@@ -1,47 +1,48 @@
-"use client";
-
+import { useState } from "react";
+import CertificationItems from "./CertificationItems";
 import { Button } from "@/components/ui/button";
-import { Check, Cross, Pencil, X } from "lucide-react";
-import EducationItem from "./EducationItem";
-import { useEffect, useState } from "react";
-import CustomDialog from "@/components/shared/EditDialog";
-import {
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-  DialogDescription,
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import EducationForm from "./EducationForm";
+import { Check, Pencil, PlusCircle, X } from "lucide-react";
 import { useResumeStore } from "@/lib/store";
 import { produce } from "immer";
 import { showCustomToast } from "@/lib/toast";
+import CertificationItem from "./CertificationItems";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import CertfificationForm from "./CertificationForm";
 
-export default function ListEducations({ viewOnly }: { viewOnly: boolean }) {
-  const [editMode, toggleEditMode] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+export default function Certification({
+  canEdit,
+  certifications,
+}: {
+  canEdit: boolean;
+  certifications: Certification[];
+}) {
+  const [editMode, toggleEditMode] = useState(false);
   const { resume, updateField } = useResumeStore();
-  const { education } = resume;
-  const [initialEducations, setInitialEducations] = useState(() =>
-    produce(education, (draft) => {}),
+  const [modalOpen, setModalOpen] = useState(false);
+  const [initialCertifications, setInitialCertifications] = useState(() =>
+    produce(certifications, (draft) => { }),
   );
-  const [draftEducations, setDraftEducations] = useState(() =>
-    produce(initialEducations, (draft) => {}),
+  const [draftCertifications, setDraftCertifications] = useState(() =>
+    produce(initialCertifications, (draft) => { }),
   );
 
-  const addDraftEducation = (data: any) => {
-    setDraftEducations(
+  const addDraftCertification = (data: any) => {
+    setDraftCertifications(
       produce((draft: any) => {
         draft.push(data);
       }),
     );
   };
 
-  const editDraftEducation = (data: any, id: string) => {
-    setDraftEducations(
+  const editDraftCertification = (data: any, id: string) => {
+    setDraftCertifications(
       produce((draft: any) => {
         const idx = draft.findIndex((d: any) => d.id === id);
         if (idx !== -1) draft[idx] = data;
@@ -49,8 +50,8 @@ export default function ListEducations({ viewOnly }: { viewOnly: boolean }) {
     );
   };
 
-  const deleteDraftEducation = (id: string) => {
-    setDraftEducations(
+  const deleteDraftCertification = (id: string) => {
+    setDraftCertifications(
       produce((draft: any) => {
         const idx = draft.findIndex((d: any) => d.id === id);
         if (idx !== -1) draft.splice(idx, 1);
@@ -58,27 +59,27 @@ export default function ListEducations({ viewOnly }: { viewOnly: boolean }) {
     );
   };
 
-  const saveDraftEducations = () => {
-    updateField("education", draftEducations);
-    setInitialEducations(draftEducations);
+  const saveDraftCertifications = () => {
+    updateField("certifications", draftCertifications);
+    setInitialCertifications(draftCertifications);
     toggleEditMode(false);
-    showCustomToast("success", "Education updated");
+    showCustomToast("success", "Certification updated");
   };
 
-  const cancelDraftEducations = () => {
-    setDraftEducations(produce(initialEducations, (draft) => {}));
+  const cancelDraftCertifications = () => {
+    setDraftCertifications(produce(initialCertifications, (draft) => { }));
     toggleEditMode(false);
-    showCustomToast("info", "Education changes cancelled");
+    showCustomToast("info", "Certification changes cancelled");
   };
 
   return (
     <div className="mt-4">
       <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-md shadow-sm p-6 space-y-4">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between">
           <h2 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
-            Education
+            Certifications
           </h2>
-          {viewOnly &&
+          {canEdit &&
             (!editMode ? (
               <Button
                 variant="outline"
@@ -94,7 +95,7 @@ export default function ListEducations({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={saveDraftEducations}
+                  onClick={saveDraftCertifications}
                 >
                   <Check className="text-green-500" />
                 </Button>
@@ -102,7 +103,7 @@ export default function ListEducations({ viewOnly }: { viewOnly: boolean }) {
                   variant="outline"
                   size="icon"
                   className="cursor-pointer rounded-full"
-                  onClick={cancelDraftEducations}
+                  onClick={cancelDraftCertifications}
                 >
                   <X className="text-red-600" />
                 </Button>
@@ -112,27 +113,26 @@ export default function ListEducations({ viewOnly }: { viewOnly: boolean }) {
 
         <hr className="border-zinc-400 dark:border-zinc-700" />
 
-        <div className="space-y-6">
-          {draftEducations.length > 0 ? (
-            draftEducations.map((item: any, key: any) => (
-              <EducationItem
-                education={item}
-                key={key}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {draftCertifications.length > 0 ? (
+            draftCertifications.map((item, idx) => (
+              <CertificationItem
+                key={idx}
+                certification={item}
                 isEditting={editMode}
-                editDraftEducation={editDraftEducation}
-                deleteDraftEducation={deleteDraftEducation}
+                editDraftCertification={editDraftCertification}
+                deleteDraftCertification={deleteDraftCertification}
               />
             ))
           ) : (
-            <div>No education added.</div>
+            <div>No certification added.</div>
           )}
         </div>
-
         {editMode && (
           <Dialog open={modalOpen} onOpenChange={setModalOpen} modal={false}>
             <DialogTrigger asChild>
-              <Button className="w-full mt-4 text-white bg-purple-600 hover:bg-purple-700 transition cursor-pointer">
-                + Add New Education
+              <Button className="w-full h-full text-white bg-purple-600 hover:bg-purple-700 transition cursor-pointer">
+                <PlusCircle /> Add New Certification
               </Button>
             </DialogTrigger>
             {modalOpen && (
@@ -140,13 +140,13 @@ export default function ListEducations({ viewOnly }: { viewOnly: boolean }) {
             )}
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add Education</DialogTitle>
+                <DialogTitle>Add Certification</DialogTitle>
                 <DialogDescription />
+                <CertfificationForm
+                  onDone={() => setModalOpen(false)}
+                  updateCertfification={addDraftCertification}
+                />
               </DialogHeader>
-              <EducationForm
-                onDone={() => setModalOpen(false)}
-                updateEducation={addDraftEducation}
-              />
             </DialogContent>
           </Dialog>
         )}

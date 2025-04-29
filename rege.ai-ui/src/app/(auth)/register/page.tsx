@@ -18,6 +18,10 @@ import { z } from "zod";
 import Link from "next/link";
 import BottomGradient from "@/components/shared/BottomGradient";
 import { useRouter } from "next/navigation";
+import { showCustomToast } from "@/lib/toast";
+import { useResumeStore } from "@/lib/store";
+import { useAuthStore } from "@/lib/authStore";
+import { DEFAULT_RESUME } from "@/lib/constants";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -29,7 +33,7 @@ const formSchema = z.object({
   email: z.string().email("This is not a valid email"),
 });
 
-export default function SignupFormDemo() {
+export default function RegisterForm() {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,10 +43,25 @@ export default function SignupFormDemo() {
       password: "",
     },
   });
+  const initResume = useResumeStore((state) => state.initResume);
+  const logIn = useAuthStore((state) => state.logIn);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    router.push("/users/1");
+    try {
+      console.log(values);
+      // TODO: Fetch Resume of user
+      logIn({
+        username: DEFAULT_RESUME.bio.username,
+        email: DEFAULT_RESUME.bio.email,
+        userId: DEFAULT_RESUME.bio.userId,
+      });
+      initResume(DEFAULT_RESUME);
+      showCustomToast("success", "Welcome to rege.ai");
+      router.push(`/users/${DEFAULT_RESUME.bio.username}`);
+    } catch (error) {
+      console.log(error);
+      showCustomToast("failure", "Unable to register");
+    }
   }
 
   return (
