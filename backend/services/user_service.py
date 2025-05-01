@@ -1,6 +1,5 @@
 import schemas.user_schema as UserSchema
 from fastapi import HTTPException, status
-from models.bio_model import BioModel
 from models.user_model import UserModel
 
 
@@ -8,16 +7,11 @@ from models.user_model import UserModel
 async def register_user(body: UserSchema.UserCreateRequest):
     if await UserModel.user_exists(body.email, body.username) is not None:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "user already exists")
-    user_dict = body.model_dump()
-    user = UserModel(**user_dict)
-    await user.insert()
+    user = await UserModel.create_with_defaults(
+        username=body.username, password=body.password, email=body.email
+    )
+    print(user)
 
-    # metadata add
-    bio = BioModel(user_id=user.id)
-    await bio.insert()
-
-    user.bio = bio
-    await user.save()
     return user.to_response()
 
 

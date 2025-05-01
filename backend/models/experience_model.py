@@ -1,19 +1,21 @@
+from datetime import date
 from typing import List, Optional
 
 from beanie import Document, PydanticObjectId
+from pydantic import Field
 
 
-# MongoDB Bio Model
 class ExperienceModel(Document):
-    user_id: PydanticObjectId
-    role: str
-    company: str
-    startMonth: str  # update to date
-    startYear: str
-    endMonth: Optional[str]  # update to date
-    endYear: Optional[str]
-    isWorkingHere: bool
-    highlights: List[str]
+    expId: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    role: str = ""
+    company: str = ""
+    startDate: date = None
+    endDate: Optional[date] = None
+    isPursuing: bool
+    points: List[str]
 
     class Settings:
-        name = "experience"
+        name = "education"
+
+    class Config:
+        populate_by_name = True

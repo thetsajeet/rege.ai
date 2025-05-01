@@ -1,8 +1,9 @@
 from typing import List, Optional
 
-import schemas.bio_schema as BioSchema
-import schemas.experience_schema as ExperienceSchema
+from beanie import PydanticObjectId
 from pydantic import BaseModel, EmailStr
+
+from .bio_schema import BioResponse
 
 
 class UserCreateRequest(BaseModel):
@@ -22,11 +23,16 @@ class UserCreateRequest(BaseModel):
 
 
 class UserResponse(BaseModel):
-    id: str
+    userId: PydanticObjectId
     username: str
-    email: EmailStr
-    bio: Optional[BioSchema.BioResponse]
-    experiences: Optional[List[ExperienceSchema.ExperienceResponse]]
+    email: str
+    bio: BioResponse
+    # experiences: List[ExperienceResponse]
+    # projects: List[ProjectResponse]
+    # education: List[EducationResponse]
+    # skills: List[SkillResponse]
+    # achievements: List[AchievementResponse]
+    # certifications: List[CertificationResponse]
 
 
 class UserGetAllResponse(BaseModel):

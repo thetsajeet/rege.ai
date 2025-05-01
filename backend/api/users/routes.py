@@ -1,8 +1,4 @@
-import schemas.bio_schema as BioSchema
-import schemas.experience_schema as ExperienceSchema
 import schemas.user_schema as UserSchema
-import services.bio_service as BioService
-import services.experience_service as ExperienceService
 import services.user_service as UserService
 from fastapi import APIRouter, status
 
@@ -37,14 +33,14 @@ async def update_user(user_id: str, body: UserSchema.UserUpdateRequest):
     return await UserService.update_user(user_id, body)
 
 
-@router.put("/{user_id}/bio", tags=["bio"])
-async def update_bio(user_id: str, body: BioSchema.BioUpdateRequest):
-    return await BioService.update_bio(user_id, body)
-
-
-@router.put("/{user_id}/experience", tags=["experience"])
-async def update_experience(user_id: str, body: ExperienceSchema.UpdateExperiences):
-    return await ExperienceService.update_experience(user_id, body)
+# @router.put("/{user_id}/bio", tags=["bio"])
+# async def update_bio(user_id: str, body: BioSchema.BioUpdateRequest):
+#     return await BioService.update_bio(user_id, body)
+#
+#
+# @router.put("/{user_id}/experience", tags=["experience"])
+# async def update_experience(user_id: str, body: ExperienceSchema.UpdateExperiences):
+#     return await ExperienceService.update_experience(user_id, body)
 
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
