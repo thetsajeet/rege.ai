@@ -46,24 +46,40 @@ export default function RegisterForm() {
   const initResume = useResumeStore((state) => state.initResume);
   const logIn = useAuthStore((state) => state.logIn);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       console.log(values);
       // TODO: Fetch Resume of user
-      const res = DEFAULT_RESUME;
-      res.bio.username = values.username;
-      res.bio.email = values.password;
-      res.bio.userId =
-        Date.now().toString() + (Math.random() * 1000).toString();
+      const payload = {
+        username: values.username,
+        password: values.password,
+        email: values.email,
+      };
+      const payloadJSON = JSON.stringify(payload);
+      const response = await fetch(
+        "http://localhost:8000/api/v1/users/register",
+        {
+          body: payloadJSON,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      console.log(response);
+
+      if (response.status !== 201) throw new Error("Failed to create user");
+
+      const data = await response.json();
 
       logIn({
-        username: values.username,
-        email: values.password,
-        userId: Date.now().toString() + (Math.random() * 1000).toString(),
+        username: data.username,
+        email: data.email,
+        userId: data.id,
       });
 
-      initResume(res);
-      localStorage.setItem(res.bio.username, JSON.stringify(res));
+      // initResume(data);
+      // localStorage.setItem(res.bio.username, JSON.stringify(res));
       showCustomToast("success", "Welcome to rege.ai");
       router.push(`/users/${DEFAULT_RESUME.bio.username}`);
     } catch (error) {
