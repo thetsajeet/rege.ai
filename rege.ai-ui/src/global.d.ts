@@ -54,10 +54,8 @@ type Certification = {
 };
 
 type Bio = {
-  userId: string;
   email: string;
-  username: string;
-  fullName: string;
+  fullName?: string;
   profession?: string;
   dob?: Date;
   location?: string;
@@ -71,6 +69,9 @@ type Skill = {
 };
 
 type Resume = {
+  userId: string;
+  email: string;
+  username: string;
   bio: Bio;
   links: BioLink[];
   experiences: ExperienceItem[];

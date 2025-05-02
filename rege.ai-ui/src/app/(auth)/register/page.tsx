@@ -21,7 +21,6 @@ import { useRouter } from "next/navigation";
 import { showCustomToast } from "@/lib/toast";
 import { useResumeStore } from "@/lib/store";
 import { useAuthStore } from "@/lib/authStore";
-import { DEFAULT_RESUME } from "@/lib/constants";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -48,24 +47,19 @@ export default function RegisterForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values);
-      // TODO: Fetch Resume of user
       const payload = {
         username: values.username,
         password: values.password,
         email: values.email,
       };
       const payloadJSON = JSON.stringify(payload);
-      const response = await fetch(
-        "http://localhost:8000/api/v1/users/register",
-        {
-          body: payloadJSON,
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const response = await fetch("http://localhost:8000/api/v1/users/", {
+        body: payloadJSON,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+      });
       console.log(response);
 
       if (response.status !== 201) throw new Error("Failed to create user");
@@ -75,13 +69,16 @@ export default function RegisterForm() {
       logIn({
         username: data.username,
         email: data.email,
-        userId: data.id,
+        userId: data.userId,
       });
 
-      // initResume(data);
-      // localStorage.setItem(res.bio.username, JSON.stringify(res));
+      initResume({ ...data, bio: { ...data.bio, email: data.email } });
       showCustomToast("success", "Welcome to rege.ai");
-      router.push(`/users/${DEFAULT_RESUME.bio.username}`);
+      localStorage.setItem(
+        data.username,
+        JSON.stringify({ ...data, token: Math.random() }), // update token
+      );
+      router.push(`/users/${data.username}`);
     } catch (error) {
       console.log(error);
       showCustomToast("failure", "Unable to register");
@@ -138,7 +135,7 @@ export default function RegisterForm() {
           />
 
           <Button
-            onClick={() => { }}
+            onClick={() => {}}
             className="cursor-pointer group relative block h-11 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
             type="submit"
           >

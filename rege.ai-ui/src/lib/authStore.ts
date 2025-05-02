@@ -1,5 +1,6 @@
 import { immer } from "zustand/middleware/immer";
 import { create } from "zustand";
+import { useEffect } from "react";
 
 type User = {
   userId: string;

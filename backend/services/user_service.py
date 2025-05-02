@@ -10,8 +10,6 @@ async def register_user(body: UserSchema.UserCreateRequest):
     user = await UserModel.create_with_defaults(
         username=body.username, password=body.password, email=body.email
     )
-    print(user)
-
     return await user.to_response()
 
 

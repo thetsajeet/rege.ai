@@ -131,6 +131,4 @@ class UserModel(Document):
             else [],
         )
 
-        print(res)
-
         return res

@@ -13,38 +13,63 @@ import ListEducations from "./components/Education/ListEducation";
 import { useResumeStore } from "@/lib/store";
 import { useEffect, useState } from "react";
 import { DEFAULT_RESUME } from "@/lib/constants";
+import { useAuthStore } from "@/lib/authStore";
 
 export default function UserPage() {
   const { username } = useParams();
-  const loggedInResume = useResumeStore((state) => state.resume);
+  const { initResume, resume } = useResumeStore();
   const [viewingResume, setViewingResume] = useState<Resume | null>(null);
+  const [canEdit, setCanEdit] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [start, toggleStart] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchResume() {
       if (!username) return notFound();
 
-      if (
-        loggedInResume.bio.username === username ||
-        loggedInResume.bio.userId === username
-      )
-        setViewingResume(loggedInResume);
-      else {
-        try {
-          // TODO: Fetch resume
-          const res = DEFAULT_RESUME;
-          setViewingResume(res);
-        } catch (error) { }
+      setLoading(true);
+
+      try {
+        const userJSON = localStorage.getItem(username as string);
+        const userDetails = userJSON ? JSON.parse(userJSON) : null;
+        const isOwner = !!userDetails?.token;
+
+        // Show resume from store if already present
+        if (resume?.username === username) {
+          setViewingResume(resume);
+          setCanEdit(isOwner);
+          setLoading(false);
+          toggleStart(false);
+          return;
+        }
+
+        // Otherwise fetch from API
+        const response = await fetch(
+          `http://localhost:8000/api/v1/users/${username}`,
+        );
+        if (!response.ok) throw new Error("Failed to fetch resume");
+
+        const data = await response.json();
+
+        console.log("call2");
+        setViewingResume({ ...data, bio: { ...data.bio, email: data.email } });
+        setCanEdit(isOwner);
+        if (isOwner)
+          initResume({ ...data, bio: { ...data.bio, email: data.email } });
+        setLoading(false);
+        toggleStart(false);
+      } catch (err) {
+        console.log("call3");
+        setLoading(false);
+        toggleStart(false);
       }
     }
 
     fetchResume();
-  }, [username, loggedInResume]);
+  }, [username]);
 
-  if (!viewingResume) return <div>Loading...</div>;
-
-  const canEdit =
-    loggedInResume.bio.username === username ||
-    loggedInResume.bio.userId === username;
+  if (start || loading) return <div className="text-center">Loading...</div>;
+  if (!loading && !viewingResume) return notFound();
 
   return (
     <div className="flex flex-col pb-20">

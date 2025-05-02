@@ -113,7 +113,7 @@ export default function BioCard({
               className={cn(
                 "rounded-full p-1 transition-all ring-2 ring-zinc-600",
                 editMode &&
-                "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
+                  "group cursor-pointer hover:brightness-50 ring-2 ring-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none",
               )}
             >
               <Avatar className="size-40">
