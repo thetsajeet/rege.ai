@@ -12,7 +12,7 @@ async def register_user(body: UserSchema.UserCreateRequest):
     )
     print(user)
 
-    return user.to_response()
+    return await user.to_response()
 
 
 # login
@@ -28,29 +28,28 @@ async def logout_user():
 # get all users
 async def get_users():
     users = await UserModel.find(fetch_links=True).to_list()
-    return {"users": [u.to_response() for u in users]}
+    return {"users": [await u.to_response() for u in users]}
 
 
 # get a user
 async def get_user(user_id: str):
-    user = await UserModel.find_by_id(user_id, fetch_links=True)
-    print(user)
-    return user.to_response()
+    user = await UserModel.find_by_id_or_username(user_id, fetch_links=True)
+    return await user.to_response()
 
 
 # update a user
 async def update_user(user_id: str, body: UserSchema.UserUpdateRequest):
-    user = await UserModel.find_by_id(user_id, fetch_links=True)
+    user = await UserModel.find_by_id_or_username(user_id, fetch_links=True)
     for k, v in body.model_dump().items():
         if v is None:
             continue
         setattr(user, k, v)
     await user.save()
-    return user.to_response()
+    return await user.to_response()
 
 
 # delete a user
 async def delete_user(user_id: str):
-    user = await UserModel.find_by_id(user_id)
+    user = await UserModel.find_by_id_or_username(user_id)
     # TODO: Delete all linked entities
     await user.delete()

@@ -2,6 +2,7 @@ from typing import List
 
 from beanie import Document, Link, PydanticObjectId
 from beanie.operators import Or
+from bson import ObjectId
 from fastapi import HTTPException, status
 from pydantic import EmailStr, Field
 from schemas import *
@@ -40,12 +41,29 @@ class UserModel(Document):
     @classmethod
     async def create_with_defaults(cls, username: str, email: EmailStr, password: str):
         bio = await BioModel(dob=None).insert()
+        standard_links_data = [
+            {
+                "label": "LinkedIn",
+                "prefix": "linkedin.com/in/",
+                "value": "",
+                "custom": False,
+            },
+            {"label": "GitHub", "prefix": "github.com/", "value": "", "custom": False},
+            {"label": "Portfolio", "value": "", "custom": False},
+            {"label": "Twitter", "prefix": "x.com/", "value": "", "custom": False},
+        ]
+
+        standard_links = [BioLinkModel(**link) for link in standard_links_data]
+        result = await BioLinkModel.insert_many(standard_links)
+        inserted_ids = result.inserted_ids
+        links = await BioLinkModel.find_many({"_id": {"$in": inserted_ids}}).to_list()
+
         user = cls(
             username=username,
             email=email,
             password=password,
             bio=bio,
-            links=[],
+            links=links,
             experiences=[],
             projects=[],
             education=[],
@@ -62,14 +80,26 @@ class UserModel(Document):
         ).first_or_none()
 
     @classmethod
-    async def find_by_id(cls, user_id: str, fetch_links: bool = False):
-        user = await cls.get(user_id, fetch_links=fetch_links)
+    async def find_by_id_or_username(cls, user_id: str, fetch_links: bool = False):
+        object_id = None
+        if ObjectId.is_valid(user_id):
+            object_id = PydanticObjectId(user_id)
+
+        query = {"$or": []}
+
+        if object_id:
+            query["$or"].append({"_id": object_id})
+        query["$or"].append({"username": user_id})
+
+        user = await cls.find_one(query)
         if user is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "user not found")
         return user
 
-    def to_response(self):
-        return UserResponse(
+    async def to_response(self):
+        await self.fetch_all_links()
+
+        res = UserResponse(
             userId=str(self.userId),
             username=self.username,
             email=self.email,
@@ -100,3 +130,7 @@ class UserModel(Document):
             if self.certifications
             else [],
         )
+
+        print(res)
+
+        return res
