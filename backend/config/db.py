@@ -22,4 +22,17 @@ async def db_init(MONGO_DB_URI, DB_NAME):
 
     print("Connected to mongodb")
 
-    await init_beanie(database=db, document_models=[UserModel, BioModel])
+    await init_beanie(
+        database=db,
+        document_models=[
+            UserModel,
+            BioModel,
+            ExperienceModel,
+            AchievementModel,
+            BioLinkModel,
+            CertificationModel,
+            EducationModel,
+            ProjectModel,
+            SkillModel,
+        ],
+    )

@@ -1,11 +1,19 @@
-import schemas.bio_schema as BioSchema
-import schemas.user_schema as UserSchema
+from typing import List
+
 from beanie import Document, Link, PydanticObjectId
 from beanie.operators import Or
 from fastapi import HTTPException, status
 from pydantic import EmailStr, Field
+from schemas import *
 
+from .achievement_model import AchievementModel
+from .bio_link_model import BioLinkModel
 from .bio_model import BioModel
+from .certification_model import CertificationModel
+from .education_model import EducationModel
+from .experience_model import ExperienceModel
+from .project_model import ProjectModel
+from .skill_model import SkillModel
 
 
 # MongoDB User Model
@@ -15,13 +23,13 @@ class UserModel(Document):
     email: EmailStr
     password: str
     bio: Link[BioModel]
-    # links: List[Link[BioLinkModel]] = Field(default_factory=list)
-    # experiences: List[Link[ExperienceModel]] = Field(default_factory=list)
-    # projects: List[Link[ProjectModel]] = Field(default_factory=list)
-    # education: List[Link[EducationModel]] = Field(default_factory=list)
-    # skills: List[Link[SkillModel]] = Field(default_factory=list)
-    # achievements: List[Link[AchievementModel]] = Field(default_factory=list)
-    # certifications: List[Link[CertificationModel]] = Field(default_factory=list)
+    links: List[Link[BioLinkModel]] = Field(default_factory=list)
+    experiences: List[Link[ExperienceModel]] = Field(default_factory=list)
+    projects: List[Link[ProjectModel]] = Field(default_factory=list)
+    education: List[Link[EducationModel]] = Field(default_factory=list)
+    skills: List[Link[SkillModel]] = Field(default_factory=list)
+    achievements: List[Link[AchievementModel]] = Field(default_factory=list)
+    certifications: List[Link[CertificationModel]] = Field(default_factory=list)
 
     class Settings:
         name = "users"
@@ -37,13 +45,13 @@ class UserModel(Document):
             email=email,
             password=password,
             bio=bio,
-            # links=[],
-            # experiences=[],
-            # projects=[],
-            # education=[],
-            # skills=[],
-            # achievements=[],
-            # certifications=[],
+            links=[],
+            experiences=[],
+            projects=[],
+            education=[],
+            skills=[],
+            achievements=[],
+            certifications=[],
         )
         return await user.insert()
 
@@ -61,51 +69,34 @@ class UserModel(Document):
         return user
 
     def to_response(self):
-        print(self.bio)
-        return UserSchema.UserResponse(
+        return UserResponse(
             userId=str(self.userId),
             username=self.username,
             email=self.email,
-            # Bio - return an empty BioResponse object if bio is None
-            bio=BioSchema.BioResponse(**self.bio.dict())
-            if self.bio
-            else BioSchema.BioResponse(),
-            # Experiences - return an empty list if experiences is None
-            # experiences=[
-            #     ExperienceSchema.ExperienceResponse(**exp.dict())
-            #     for exp in self.experiences
-            # ]
-            # if self.experiences
-            # else [],
-            # # Projects - return an empty list if projects is None
-            # projects=[
-            #     ProjectSchema.ProjectResponse(**proj.dict()) for proj in self.projects
-            # ]
-            # if self.projects
-            # else [],
-            # # Education - return an empty list if education is None
-            # education=[
-            #     EducationSchema.EducationResponse(**edu.dict())
-            #     for edu in self.education
-            # ]
-            # if self.education
-            # else [],
-            # # Skills - return an empty list if skills is None
-            # skills=[SkillSchema.SkillResponse(**skill.dict()) for skill in self.skills]
-            # if self.skills
-            # else [],
-            # # Achievements - return an empty list if achievements is None
-            # achievements=[
-            #     AchievementSchema.AchievementResponse(**achv.dict())
-            #     for achv in self.achievements
-            # ]
-            # if self.achievements
-            # else [],
-            # # Certifications - return an empty list if certifications is None
-            # certifications=[
-            #     CertificationSchema.CertificationResponse(**cert.dict())
-            #     for cert in self.certifications
-            # ]
-            # if self.certifications
-            # else [],
+            bio=BioResponse(**self.bio.dict()) if self.bio else BioResponse(),
+            links=[BioLinkResponse(**link.dict()) for link in self.links]
+            if self.links
+            else [],
+            experiences=[ExperienceResponse(**exp.dict()) for exp in self.experiences]
+            if self.experiences
+            else [],
+            projects=[ProjectResponse(**proj.dict()) for proj in self.projects]
+            if self.projects
+            else [],
+            education=[EducationResponse(**edu.dict()) for edu in self.education]
+            if self.education
+            else [],
+            skills=[SkillResponse(**skill.dict()) for skill in self.skills]
+            if self.skills
+            else [],
+            achievements=[
+                AchievementResponse(**achv.dict()) for achv in self.achievements
+            ]
+            if self.achievements
+            else [],
+            certifications=[
+                CertificationResponse(**cert.dict()) for cert in self.certifications
+            ]
+            if self.certifications
+            else [],
         )

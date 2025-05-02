@@ -28,7 +28,6 @@ async def logout_user():
 # get all users
 async def get_users():
     users = await UserModel.find(fetch_links=True).to_list()
-    print(users)
     return {"users": [u.to_response() for u in users]}
 
 

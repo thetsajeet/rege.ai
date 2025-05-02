@@ -1,19 +1,18 @@
+from datetime import date
 from typing import List, Optional
 
 from beanie import PydanticObjectId
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ExperienceResponse(BaseModel):
-    id: Optional[PydanticObjectId] = None
-    role: str
-    company: str
-    startMonth: str  # update to date
-    startYear: str
-    endMonth: Optional[str]  # update to date
-    endYear: Optional[str]
-    isWorkingHere: bool
-    highlights: List[str]
+    expId: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    role: str = ""
+    company: str = ""
+    startDate: date = None
+    endDate: Optional[date] = None
+    isPursuing: bool
+    points: List[str]
 
 
 class UpdateExperiences(BaseModel):

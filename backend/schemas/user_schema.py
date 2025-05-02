@@ -3,7 +3,14 @@ from typing import List, Optional
 from beanie import PydanticObjectId
 from pydantic import BaseModel, EmailStr
 
+from .achievement_schema import AchievementResponse
+from .bio_link_schema import BioLinkResponse
 from .bio_schema import BioResponse
+from .certification_schema import CertificationResponse
+from .education_schema import EducationResponse
+from .experience_schema import ExperienceResponse
+from .project_schema import ProjectResponse
+from .skill_schema import SkillResponse
 
 
 class UserCreateRequest(BaseModel):
@@ -27,12 +34,13 @@ class UserResponse(BaseModel):
     username: str
     email: str
     bio: BioResponse
-    # experiences: List[ExperienceResponse]
-    # projects: List[ProjectResponse]
-    # education: List[EducationResponse]
-    # skills: List[SkillResponse]
-    # achievements: List[AchievementResponse]
-    # certifications: List[CertificationResponse]
+    links: List[BioLinkResponse]
+    experiences: List[ExperienceResponse]
+    projects: List[ProjectResponse]
+    education: List[EducationResponse]
+    skills: List[SkillResponse]
+    achievements: List[AchievementResponse]
+    certifications: List[CertificationResponse]
 
 
 class UserGetAllResponse(BaseModel):
