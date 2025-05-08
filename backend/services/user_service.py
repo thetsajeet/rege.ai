@@ -14,8 +14,8 @@ async def register_user(body: UserSchema.UserCreateRequest):
 
 
 # login
-async def login_user():
-    pass
+async def login_user(body: UserSchema.LoginRequest):
+    user = UserModel.find()
 
 
 # logout

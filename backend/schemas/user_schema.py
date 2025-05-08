@@ -51,3 +51,9 @@ class UserUpdateRequest(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
     password: Optional[str] = None
+
+
+class LoginRequest(BaseModel):
+    username: Optional[str] = None
+    password: str = None
+    email: Optional[EmailStr] = None

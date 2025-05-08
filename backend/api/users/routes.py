@@ -26,6 +26,11 @@ async def create_user(body: UserSchema.UserCreateRequest):
     return await UserService.register_user(body)
 
 
+@router.post("/", status_code=status.HTTP_200_OK, response_model={})
+async def login_user(body: UserSchema.UserLoginRequest):
+    return await UserService.login_user(body)
+
+
 @router.put(
     "/{user_id}", status_code=status.HTTP_200_OK, response_model=UserSchema.UserResponse
 )
